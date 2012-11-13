@@ -20,7 +20,7 @@ def temp_change():
 	if request.headers['Content-Type'] == 'application/json':
 		#We will post the temperature change here, using
 		#the database interface file that has been written				
-		post_temp_change(json.dumps(request.json))
+		post_temp_change(request.json)
 		
 	else:
 		return 'something went wrong!'

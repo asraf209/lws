@@ -3,6 +3,7 @@ import urllib2
 import httplib
 import requests
 from datetime import datetime
+import time as time
 import json
 
 #puts a temperature change onto the server
@@ -15,9 +16,10 @@ def put_temp_change(temp, phidget_id, sensor_id):
 		         'h':datetime.now().hour,
 		         'min':datetime.now().minute,
 		         's':datetime.now().second,
-		         'val':temp,
-		         'phid':phidget_id,
-		         'sensid':sensor_id,
+			 #'ms':int(round(time_.time()*1000), 
+		         #'val':str(temp),
+		         #'phid':str(phidget_id),
+		         #'sensid':str(sensor_id),
 		     }
 
 	#old code that is supposedly no good to actually implement
