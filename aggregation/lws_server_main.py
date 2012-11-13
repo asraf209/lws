@@ -3,23 +3,9 @@
 from flask import Flask
 from flask import request
 from flask import json
+from db_interface import post_temp_change
 
 app = Flask(__name__)
-
-#serve up the homepage for the entire project
-@app.route('/')
-def index():
-	return 'Homepage for the lws project.'
-
-#serves up the about page for the entire project
-@app.route('/about')
-def about_project():
-	return 'About page for the lws project.'
-
-#serves up the wiki for the project
-@app.route('/wiki')
-def wiki_project():
-	return 'Wiki page for the lws project.'
 
 #for registering a new device.. will build XML on the backend
 #with this somehow
@@ -32,9 +18,11 @@ def register_new_device():
 @app.route('/devices/updates/temp', methods = ['POST'])
 def temp_change():	
 	if request.headers['Content-Type'] == 'application/json':
-		#we want to write the JSON request to a file for now so it can be served up by the temperature page
+		#We will post the temperature change here, using
+		#the database interface file that has been written		
 		
-		return json.dumps(request.json)
+		post_temp_change(json.dumps(request.json))
+		
 	else:
 		return 'something went wrong!'
 
@@ -42,12 +30,10 @@ def temp_change():
 #at- for testing pruposes only
 @app.route('/temperature')
 def get_temp():
-		
-
+	return 'Hii'			
 
 
 if __name__ == '__main__':
-	#turn on debugging mode for the server
 	app.debug = True
 	app.run()
 

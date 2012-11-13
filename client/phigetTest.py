@@ -4,6 +4,7 @@
 from Phidgets.PhidgetException import *
 from Phidgets.Events.Events import *
 from Phidgets.Devices.InterfaceKit import *
+import json
 
 #Triggered/run in the event that a sensor value has hanged. 
 #e.value returns the value of the current sensor in whatever
@@ -19,21 +20,23 @@ def sensorChanged(e):
 #This method depends on the device that we are using. For us, it
 #happens to be the interfacekit.
 try:
+  print 'creating the interface kit'
   device = InterfaceKit()
 except RuntimeError as e:
   print("Error when trying to create the device: %s" % e.message)
 
-#Bind the onSesnorChangeHandler to the device that we created and
-#Connected them.
-device.setOnSensorChangeHandler(sensorChanged)
-
 #This connects to the device.
 try:
+  print 'connecting to the device!'
   device.openPhidget()
 except PhidgetException as e:
   print ("Exception when trying to connect %i: %s" % (e.code, e.detail))		
   exit(1)
 
+device.setOnSensorChangeHandler(sensorChanged)
+
 #Only here to block until user keyboard input, which will end the program.
 character = str(raw_input())
 
+#we have to close the phidget after we are done..
+device.closePhidget()
