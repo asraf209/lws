@@ -17,9 +17,9 @@ def put_temp_change(temp, phidget_id, sensor_id):
 		         'min':datetime.now().minute,
 		         's':datetime.now().second,
 			 #'ms':int(round(time_.time()*1000), 
-		         #'val':str(temp),
-		         #'phid':str(phidget_id),
-		         #'sensid':str(sensor_id),
+		         'val':temp,
+		         'phid':phidget_id,
+		         'sensid':sensor_id,
 		     }
 
 	#old code that is supposedly no good to actually implement

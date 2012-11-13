@@ -21,8 +21,8 @@ def random_temp():
 #here in terms of efficiency of hashing functions to
 #create a randon sensor id
 def random_phidget_id():
-	phidget_id = md5.new(str(random.randrange(1000)+1)).digest()
-	return  phidget_id[5:]
+	phidget_id = str(random.randrange(1000)+1)
+	return  phidget_id
 
 class fake_client(Thread):
 	
