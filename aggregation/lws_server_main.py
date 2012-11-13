@@ -15,12 +15,11 @@ def register_new_device():
 
 #for getting changes in temperature a normal URI will look like:
 #will take in as a JSON, coming from the client
-@app.route('/devices/updates/temp', methods = ['POST'])
+@app.route('/devices/updates/temp', methods = ['PUT'])
 def temp_change():	
 	if request.headers['Content-Type'] == 'application/json':
 		#We will post the temperature change here, using
-		#the database interface file that has been written		
-		
+		#the database interface file that has been written				
 		post_temp_change(json.dumps(request.json))
 		
 	else:
