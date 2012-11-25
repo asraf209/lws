@@ -4,14 +4,25 @@ from flask import Flask
 from flask import request
 from flask import json
 from db_interface import post_temp_change
+from server_backend import device_registered, register_device
 
 app = Flask(__name__)
 
 #for registering a new device.. will build XML on the backend
 #with this somehow
-@app.route('/devices/resgister/new')
+@app.route('/devices/resgister/new', methods = ['PUT'])
 def register_new_device():
-	return 'Register a new device'
+	if request.headers['Content-Type'] == 'application/json':
+		
+		#Check if device is already registered
+		if device_registered(request.json):
+			return 'Device already registered'
+
+		#If the device isn't registered, we register it with the registration database 
+		else:
+			register_device(request.json)	
+			return 	'Device registered'	
+
 
 #for getting changes in temperature a normal URI will look like:
 #will take in as a JSON, coming from the client
