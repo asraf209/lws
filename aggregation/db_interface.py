@@ -25,6 +25,26 @@ def post_temp_change(temp_change):
 	collection = db.tempData
 	collection.insert(temp_change)
 
+#checks to see if the device has been registered based on the JSON structure that
+#is passed to the function
+def device_registered(dev_reg):
+	connection = Connection()
+	db = connection.lws
+	collection = db.devices
+	anything = collection.find(dev_reg)
+	if anything is empty:
+		return 0
+	else:
+		return 1	
+	
+
+#registeres the device base on the JSON structure that is passed to the function
+def register_device(dev_reg):
+	connection = Connection()
+	db = connection.lws
+	collection = db.devices
+	devices.insert(dev_reg)
+
 
 #
 #def run():

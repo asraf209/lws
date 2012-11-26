@@ -3,8 +3,8 @@
 from flask import Flask
 from flask import request
 from flask import json
-from db_interface import post_temp_change
-from server_backend import device_registered, register_device
+from db_interface import post_temp_change, device_registered, register_device
+
 
 app = Flask(__name__)
 
