@@ -10,10 +10,10 @@ app = Flask(__name__)
 
 #for registering a new device.. will build XML on the backend
 #with this somehow
-@app.route('/devices/resgister/new', methods = ['PUT'])
+@app.route('/devices/register', methods = ['PUT'])
 def register_new_device():
 	if request.headers['Content-Type'] == 'application/json':
-		
+
 		#Check if device is already registered
 		if device_registered(request.json):
 			return 'Device already registered'
@@ -21,7 +21,9 @@ def register_new_device():
 		#If the device isn't registered, we register it with the registration database 
 		else:
 			register_device(request.json)	
-			return 	'Device registered'	
+			return 	'Device registered'
+	else:
+		return 'Wut!?'	
 
 
 #for getting changes in temperature a normal URI will look like:
@@ -32,7 +34,7 @@ def temp_change():
 		#We will post the temperature change here, using
 		#the database interface file that has been written				
 		post_temp_change(request.json)
-		
+		return 'temp_put'
 	else:
 		return 'something went wrong!'
 

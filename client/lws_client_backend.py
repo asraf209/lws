@@ -1,13 +1,16 @@
 #Miscelenous client backend functions
 from uuid import getnode as get_mac
 import hashlib
+import fcntl
+import struct
+import socket
 
 #generates the a device_id value
 #In order to generate a random value I am taking the MAC address of the device, then hashing it using
 #MD5 and return the first 
 def gen_id_val():
 	id_val = hashlib.md5(str(get_mac())).hexdigest()
-	return id_val
+	return id_val[:8]
 
 #gets the local IP address of the client- has to be done is some conviluded way
 #only works in unix kernals 2.5 and 2.6

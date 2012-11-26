@@ -31,19 +31,18 @@ def device_registered(dev_reg):
 	connection = Connection()
 	db = connection.lws
 	collection = db.devices
-	anything = collection.find(dev_reg)
-	if anything is empty:
-		return 0
-	else:
-		return 1	
 	
+	if collection.find({"devid":dev_reg['devid']}).count() == 0:
+		return False
+	else:
+		return True
 
 #registeres the device base on the JSON structure that is passed to the function
 def register_device(dev_reg):
 	connection = Connection()
 	db = connection.lws
 	collection = db.devices
-	devices.insert(dev_reg)
+	collection.insert(dev_reg)
 
 
 #

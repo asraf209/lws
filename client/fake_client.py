@@ -3,7 +3,8 @@ import time
 import random
 from threading import Thread
 import md5
-from request_handler import put_temp_change
+from request_handler import put_value_change, register_device
+from lws_client_backend import gen_id_val, get_local_ip
 
 #inteval in seconds for the fake client to attempt to post something
 #the aggreation later
@@ -25,13 +26,12 @@ def random_phidget_id():
 	return  phidget_id
 
 class fake_client(Thread):
-	
 	def run(self):
 		phidget_id = random_phidget_id()
 		while True:
-			print 'putting a temp change!'
+			#print 'putting a temp change!'
 			global sensor_id
-			put_temp_change(random_temp(),phidget_id,sensor_id)
+			put_value_change(random_temp(),phidget_id,sensor_id)
 			time.sleep(interval)
 	
 	def random_phidget_id():
@@ -46,9 +46,13 @@ def run():
 	for number in xrange(client_number):
 		fake_client().start()
 
-if __name__ == '__main__':
-	run()					
+#test the registration of the device
+def reg_test():
+	register_device(get_local_ip('eth0'), gen_id_val())
 
+if __name__ == '__main__':
+	#run()					
+	reg_test()
 
 
 

@@ -5,6 +5,7 @@ import requests
 from datetime import datetime
 import time as time
 import json
+import socket
 
 #puts a temperature change onto the server
 def put_value_change(value, phidget_id, sensor_id):
@@ -33,7 +34,7 @@ def put_value_change(value, phidget_id, sensor_id):
 	temp_data=json.dumps(temp_data)
 
 	the_request = requests.put('http://127.0.0.1:5000/devices/updates/temp', data=temp_data, headers=headers)
-	
+	print the_request.text	
 
 
 #Function that registeres the device, will return a JSON object if the device has not been registered, 1 if registration
@@ -42,19 +43,41 @@ def put_value_change(value, phidget_id, sensor_id):
 #reg_info:
 
 def register_device(ip_address, dev_id):
+	#reg_info = {
+			#'ipaddress':str(ip_address),
+			#'devid':str(dev_id),
+			#'d':datetime.now().day,
+                        #'y':datetime.now().year,
+                        #'month':datetime.now().month,
+                        #'h':datetime.now().hour,
+                        #'min':datetime.now().minute,
+		#}
 	reg_info = {
-			'ip_address':ip_address,
-			'dev_id':dev_id,
-			'd':datetime.now().day,
-                        'y':datetime.now().year,
-                        'month':datetime.now().month,
-                        'h':datetime.now().hour,
-                        'min':datetime.now().minute
+			'min':'hiii',
 		}
-	
+
+
 	headers = {'content-type':'application/json'}
-	temp_data=json.dumps(reg_info)
-	the_request = requests.put('http://127.0.0.1:5000/devices/register', data=reg_info, headers=headers)
+        temp_data = {
+                         
+			 'ipaddress':ip_address,
+			 'devid':dev_id,
+			 'd':datetime.now().day,
+                         'y':datetime.now().year,
+                         'month':datetime.now().month,
+                         'h':datetime.now().hour,
+                         'min':datetime.now().minute,
+                         's':datetime.now().second,
+                         #'ms':int(round(time_.time()*1000)), 
+                         #'val':'10',
+                         #'phid':'123',
+                         #'sensid':'0',
+                     }
+
 	
+	print temp_data
+	
+	temp_data=json.dumps(temp_data)
 
-
+        the_request = requests.put('http://127.0.0.1:5000/devices/register', data=temp_data, headers=headers)
+        print the_request.text
