@@ -33,3 +33,22 @@ def put_value_change(value, phidget_id, sensor_id):
 	temp_data=json.dumps(temp_data)
 
 	the_request = requests.put('http://127.0.0.1:5000/devices/updates/temp', data=temp_data, headers=headers)
+
+
+
+#Function that registeres the device, will return a JSON object if the device has not been registered, 1 if registration
+#has been sucessful, 2 if the device has already been registered.
+#Data looks like:
+#reg_info:
+
+def register_device(dev_info):
+
+
+
+	headers = {'content-type':'application/json'}
+	temp_data=json.dumps(temp_data)
+	the_request = requests.put('http://127.0.0.1:5000/devices/register', data=temp_data, headers=headers)
+
+
+
+
