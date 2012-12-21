@@ -1,0 +1,19 @@
+<!doctype html>
+<title> All Devices </title>
+<head>
+<meta http-equiv='refresh' content="2">
+
+</head>
+<div class= header>
+	<h1> All devices currently registered: </h1>
+</div>
+
+<div>
+
+{% for device in all_devices %}
+	{{ device }} <br />
+
+{% endfor %}
+
+</div>
+

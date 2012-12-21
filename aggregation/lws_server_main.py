@@ -1,49 +1,55 @@
 #The main server runfile for the lws project
 
-from flask import Flask
+from flask import Flask, render_template
 from flask import request
 from flask import json
-from db_interface import post_temp_change, device_registered, register_device
-
+from db_interface import post_value_change, device_registered, register_device,check_current_ip, list_all_devices
 
 app = Flask(__name__)
 
-#for registering a new device.. will build XML on the backend
-#with this somehow
+def get_resource_as_string(name, charset='utf-8'):
+    with app.open_resource(name) as f:
+        return f.read().decode(charset)
+
+app.jinja_env.globals['get_resource_as_string'] = get_resource_as_string
+
+#for registering a new device
 @app.route('/devices/register', methods = ['PUT'])
 def register_new_device():
 	if request.headers['Content-Type'] == 'application/json':
-
 		#Check if device is already registered
 		if device_registered(request.json):
-			return 'Device already registered'
-
+			check_current_ip(request.json)
+			return '_dev_prev_registerd'
 		#If the device isn't registered, we register it with the registration database 
 		else:
 			register_device(request.json)	
-			return 	'Device registered'
+			return 	'_dev_registered'
 	else:
-		return 'Wut!?'	
-
+		return '_not_possible'	
+	return '_register_here'
 
 #for getting changes in temperature a normal URI will look like:
 #will take in as a JSON, coming from the client
-@app.route('/devices/updates/temp', methods = ['PUT'])
-def temp_change():	
+@app.route('/devices/updates/value', methods = ['PUT'])
+def value_change():	
 	if request.headers['Content-Type'] == 'application/json':
-		#We will post the temperature change here, using
+		#We will post the value change here, using
 		#the database interface file that has been written				
-		post_temp_change(request.json)
-		return 'temp_put'
+		post_value_change(request.json)
+		return '_data_put'
 	else:
-		return 'something went wrong!'
+		return '_data_fail'
 
-#a temperature page that that the user can access current temperatures
-#at- for testing pruposes only
-@app.route('/temperature')
-def get_temp():
-	return 'Hii'			
+#setup for all of the devices that we have running
+@app.route('/devices/all')
+def show_all_devices():
+	return render_template('devices.html', all_devices=list_all_devices())
 
+#testing the template rendering
+@app.route('/template/test')
+def template_test():
+	return render_template('index.html')
 
 if __name__ == '__main__':
 	app.debug = True
