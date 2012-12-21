@@ -7,6 +7,8 @@ import time as time
 import json
 import socket
 
+agg_add='http://127.0.0.1:5000/'
+
 #puts a temperature change onto the server
 def put_value_change(value, phidget_id, sensor_id):
 	headers = {'content-type':'application/json'}
@@ -33,7 +35,7 @@ def put_value_change(value, phidget_id, sensor_id):
 	#print 'putting the request!'
 	temp_data=json.dumps(temp_data)
 
-	the_request = requests.put('http://127.0.0.1:5000/devices/updates/temp', data=temp_data, headers=headers)
+	the_request = requests.put('%sdevices/updates/value'%agg_add, data=temp_data, headers=headers)
 	print the_request.text	
 
 
@@ -79,5 +81,5 @@ def register_device(ip_address, dev_id):
 	
 	temp_data=json.dumps(temp_data)
 
-        the_request = requests.put('http://127.0.0.1:5000/devices/register', data=temp_data, headers=headers)
+        the_request = requests.put('%sdevices/register'%agg_add, data=temp_data, headers=headers)
         print the_request.text
