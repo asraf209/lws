@@ -4,8 +4,8 @@
 from Phidgets.PhidgetException import *
 from Phidgets.Events.Events import *
 from Phidgets.Devices.InterfaceKit import *
-from request_hanlder import put_value_change
-from register_module import register_phidget
+#from request_handler import put_value_change
+#from register_module import register_phidget
 import json
 
 #Triggered/run in the event that a sensor value has hanged. 
@@ -15,8 +15,8 @@ import json
 #from 0-100%. The index is the integer value index of the port
 #that the sensor is plugged in at. With our board it ranges from 0-5. 
 def sensorChanged(e):
- #print ("Sensor change at %i: %i" % (e.index, e.value))
- put_value_change(e.value,e.index,'1234')
+ print ("Sensor change at %i: %i" % (e.index, e.value))
+ #put_value_change(e.value,e.index,'1234')
  
 
 #Create and connect to the device using the InterfaceKit() method.
