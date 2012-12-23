@@ -1,6 +1,7 @@
 from Phidgets.PhidgetException import *
 from Phidgets.Events.Events import *
 from Phidgets.Devices.InterfaceKit import *
+from lws_client_backend import gen_id_val, get_local_ip
 import time
 
 #Create and connect to the device using the InterfaceKit() method.
@@ -43,8 +44,15 @@ def start_sensors_for_changes():
 def sensorChanged(e):
  print ("Sensor change at %i: %i" % (e.index, e.value))
 
-def print_sensor_changes():
-	print device.getSensorValue(5)
+def sensor_changes():
+	for i in range(8):
+		try:
+			print 'Sensor %s: value %s'%(i,device.getSensorValue(i))
+			
+		except:
+			print 'Sensor not on the %s port'%i
+
+	#print device.getSensorValue(5)
 
 def run_poller():
 	while True:
