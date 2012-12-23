@@ -38,6 +38,7 @@ except PhidgetException as e:
 
 device.setOnSensorChangeHandler(sensorChanged)
 
+
 #Only here to block until user keyboard input, which will end the program.
 character = str(raw_input())
 
