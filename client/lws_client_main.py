@@ -7,39 +7,56 @@ from Phidgets.Devices.InterfaceKit import *
 #from request_handler import put_value_change
 #from register_module import register_phidget
 import json
-
-#Triggered/run in the event that a sensor value has hanged. 
-#e.value returns the value of the current sensor in whatever
-#units the sensor is being measured in. For example, the
-#slider is measured from 1-1000. The light sensor is measured
-#from 0-100%. The index is the integer value index of the port
-#that the sensor is plugged in at. With our board it ranges from 0-5. 
-def sensorChanged(e):
- print ("Sensor change at %i: %i" % (e.index, e.value))
- #put_value_change(e.value,e.index,'1234')
- 
+from time import sleep
 
 #Create and connect to the device using the InterfaceKit() method.
 #This method depends on the device that we are using. For us, it
 #happens to be the interfacekit.
-try:
-  print 'creating the interface kit'
-  device = InterfaceKit()
-except RuntimeError as e:
-  print("Error when trying to create the device: %s" % e.message)
+def connect_phidget():
+	try:
+  		print 'creating the interface kit'
+  		device = InterfaceKit()
+	except RuntimeError as e:
+  		print("Error when trying to create the device: %s" % e.message)
 
-#This connects to the device.
-try:
-  print 'connecting to the device!'
-  device.openPhidget()
-except PhidgetException as e:
-  print ("Exception when trying to connect %i: %s" % (e.code, e.detail))		
-  exit(1)
+	#This connects to the device.
+	try:
+ 		print 'connecting to the device!'
+  		device.openPhidget()
+	except PhidgetException as e:
+ 		print ("Exception when trying to connect %i: %s" % (e.code, e.detail))		
+  		exit(1)
 
-device.setOnSensorChangeHandler(sensorChanged)
+	return device
+
+#polls all of the sensors that are available/plugged in and retruns a dict with
+#the sensor index plus the value. There has to be a way to query the phidget
+#I/0 board to see which sensors are attached. Takes the constructed device as
+#an arugement
+def check_sensors(device):
+	#since we can have up to 8 sensors, we check to all 8 ports
+	values_dict={}
+	for n in range(0,8):
+		try:
+			print 'checking sensor on %s'%n
+			values_dict[n] = device.getSensorValue(n)
+		except:
+			print 'no sensor attached to port %s'%n
+			values_dict[n] = 'N/A'
+
+	return values_dict
+
+if __name__ == '__main__':	
+	device = connect_phidget()
+	while True:
+		sleep(1)
+		print check_sensors(device)
+	device.closePhidget()
+
+
 
 #Only here to block until user keyboard input, which will end the program.
-character = str(raw_input())
+#character = str(raw_input())
 
 #we have to close the phidget after we are done..
-device.closePhidget()
+#device.closePhidget()
