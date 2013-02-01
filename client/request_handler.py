@@ -7,10 +7,11 @@ import time as time
 import json
 import socket
 
-agg_add='http://127.0.0.1:5000/'
+agg_add='lwsaggregation.shome.local'
+url = 'http://%s/devices/updates/value'%agg_add
 
-#puts a temperature change onto the server
-def put_value_change(value, phidget_id, sensor_id):
+#puts a value change onto the server
+def put_value_change(phidget_id, sensor_data):
 	headers = {'content-type':'application/json'}
 	temp_data = {
 			 'd':datetime.now().day,
@@ -20,9 +21,9 @@ def put_value_change(value, phidget_id, sensor_id):
 		         'min':datetime.now().minute,
 		         's':datetime.now().second,
 			 #'ms':int(round(time_.time()*1000)), 
-		         'val':value,
+		         #'val':value,
 		         'phid':phidget_id,
-		         'sensid':sensor_id,
+		         'sensor_data':sensor_data,
 		     }
 
 	#old code that is supposedly no good to actually implement
@@ -35,7 +36,9 @@ def put_value_change(value, phidget_id, sensor_id):
 	#print 'putting the request!'
 	temp_data=json.dumps(temp_data)
 
-	the_request = requests.put('%sdevices/updates/value'%agg_add, data=temp_data, headers=headers)
+	print temp_data	
+
+	the_request = requests.put(str(url), data=temp_data, headers=headers)
 	print the_request.text	
 
 

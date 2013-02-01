@@ -4,7 +4,9 @@
 from Phidgets.PhidgetException import *
 from Phidgets.Events.Events import *
 from Phidgets.Devices.InterfaceKit import *
-#from request_handler import put_value_change
+from request_handler import put_value_change, register_device
+from lws_client_backend import gen_id_val,get_local_ip
+from request_handler import put_value_change
 #from register_module import register_phidget
 import json
 from time import sleep
@@ -38,19 +40,27 @@ def check_sensors(device):
 	values_dict={}
 	for n in range(0,8):
 		try:
-			print 'checking sensor on %s'%n
+			#print 'checking sensor on %s'%n
 			values_dict[n] = device.getSensorValue(n)
 		except:
-			print 'no sensor attached to port %s'%n
+			#print 'no sensor attached to port %s'%n
 			values_dict[n] = 'N/A'
 
 	return values_dict
 
-if __name__ == '__main__':	
+if __name__ == '__main__':
+	#get the id_val of the device
+	dev_id = gen_id_val()
 	device = connect_phidget()
 	while True:
-		sleep(1)
-		print check_sensors(device)
+		sleep(3)
+		#getting the IP here, don't really need to do this after some recent updates
+		ip_addy = get_local_ip('eth0')
+		print 'IP is: %s'%ip_addy		
+		sensor_data = check_sensors(device)
+		print sensor_data
+		put_value_change(dev_id,sensor_data)
+
 	device.closePhidget()
 
 
