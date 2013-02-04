@@ -3,7 +3,8 @@
 from flask import Flask, render_template
 from flask import request
 from flask import json
-from db_interface import post_value_change, device_registered, register_device,check_current_ip, list_all_devices
+from db_interface import post_value_change, device_registered
+from db_interface import register_device, check_current_ip, list_all_devices
 
 app = Flask(__name__)
 
@@ -50,6 +51,10 @@ def show_all_devices():
 @app.route('/template/test')
 def template_test():
 	return render_template('index.html')
+
+@app.route('/')
+def home_test():
+	return 'Hello, brew'
 
 if __name__ == '__main__':
 	app.debug = True
