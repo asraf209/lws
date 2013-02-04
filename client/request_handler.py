@@ -7,7 +7,7 @@ import time as time
 import json
 import socket
 
-agg_add='lwsaggregation.shome.local'
+agg_add='lws.at-band-camp.net'
 url = 'http://%s/devices/updates/value'%agg_add
 
 #puts a value change onto the server
@@ -84,5 +84,5 @@ def register_device(ip_address, dev_id):
 	
 	temp_data=json.dumps(temp_data)
 
-        the_request = requests.put('%sdevices/register'%agg_add, data=temp_data, headers=headers)
+        the_request = requests.put(str('http://%s/devices/register'%agg_add), data=temp_data, headers=headers)
         print the_request.text

@@ -57,6 +57,7 @@ if __name__ == '__main__':
 		#getting the IP here, don't really need to do this after some recent updates
 		ip_addy = get_local_ip('eth0')
 		print 'IP is: %s'%ip_addy		
+		register_device(ip_addy,dev_id)
 		sensor_data = check_sensors(device)
 		print sensor_data
 		put_value_change(dev_id,sensor_data)
