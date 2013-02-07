@@ -6,14 +6,14 @@ lws
 Current Sensor Positions
 ========================
 
-[0 - Nothing Attached]
-[1 - Nothing Attached]
-[2 - Nothing Attached]
-[3 - Sound Sensor]
-[4 - Light Sensor]
-[5 - Motion Sensor]
-[6 - Humidity Sensor]
-[7 - Temperature Sensor]
+[0 - Nothing Attached]<br/>
+[1 - Nothing Attached]<br/>
+[2 - Nothing Attached]<br/>
+[3 - Sound Sensor]<br/>
+[4 - Light Sensor]<br/>
+[5 - Motion Sensor]<br/>
+[6 - Humidity Sensor]<br/>
+[7 - Temperature Sensor]<br/>
 
 Table of Contents
 -----
