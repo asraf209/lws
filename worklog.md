@@ -4,7 +4,7 @@ lws Worklog
 
 The focus of this is setting up the nodes and widgets. The aggregation node is maintained by us and does not necessarily need very much configuration. Some limited documentation about the aggregation node is available here as well as in the lws/aggregation/README.md file.
 
-![hardwarestack](https://raw.github.com/t3hpaul/lws/blob/gh-pages/static/worklog_photos/full_stack_flash.jpg)
+![hardwarestack](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/phidgetio.jpg)
 
 Table of Contents
 -----
@@ -40,6 +40,10 @@ We opted to use Raspberry Pi's for the host device. The small form factor, proce
 The quick start guide for the Pi can be found [here] (#http://www.raspberrypi.org/quick-start-guide). You can also find more information about how to set up the Pi and get up and running in the [Setup] (#Setup) section.<br/>
 
 A few shots of one of our Raspberry Pi's:
+
+![raspberry1](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/pi1.jpg)<br/>
+![raspberry2](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/pi_side.jpg)<br/>
+![raspberry3](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/pi_top.jpg)<br/>
 
 
 <b>Sensing</b><br/>
