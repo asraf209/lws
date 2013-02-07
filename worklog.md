@@ -41,6 +41,10 @@ The quick start guide for the Pi can be found [here] (#http://www.raspberrypi.or
 
 A few shots of one of our Raspberry Pi's:
 
+![raspberry1](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/pi1.jpg)<br/>
+![raspberry2](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/pi_side.jpg)<br/>
+![raspberry3](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/pi_top.jpg)<br/>
+
 
 <b>Sensing</b><br/>
 
