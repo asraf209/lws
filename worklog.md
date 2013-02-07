@@ -4,6 +4,8 @@ lws Worklog
 
 The focus of this is setting up the nodes and widgets. The aggregation node is maintained by us and does not necessarily need very much configuration. Some limited documentation about the aggregation node is available here as well as in the lws/aggregation/README.md file.
 
+![hardwarestack](https://github.com/t3hpaul/lws/blob/gh-pages/static/worklog_photos/full_stack_flash.jpg)
+
 Table of Contents
 -----
 * [1 - Hardware](#hardware)
