@@ -34,9 +34,38 @@ We opted to use Raspberry Pi's for the host device. The small form factor, proce
 * 512MB of RAM
 * SD card for booting and long-term storage (we are using an 8GB Kingston SD card)<br/>
 
-The quick start guide for the Pi can be found here(#http://www.raspberrypi.org/quick-start-guide). You can also find more information about how to set up the Pi and get up and running in the Setup(#Setup) section.<br/>
+The quick start guide for the Pi can be found [here] (#http://www.raspberrypi.org/quick-start-guide). You can also find more information about how to set up the Pi and get up and running in the [Setup] (#Setup) section.<br/>
+
+A few shots of one of our Raspberry Pi's:
 
 
+<b>Sensing</b><br/>
+
+For collecting environmental data, we obviously need some sort of sensors. Since we also want to eventually control some of the environment that the widgets/nodes are deployed in, we opted to use Phidgets.<br/>
+
+Phidgets provide an easy way to interface with sensors through an API as well as throughout the ability to have analog inputs for custom sensing applications. Additionally, Phidget I/O boards include analog outputs; this allows us to control other devices. <br/>
+
+Phidgets are broken into two main parts; I/O boards and Sensors. <br/>
+
+<b>PhidgetInterfaceKit 8/8/8 - I/O Board <b/><br/>
+* 8 Analog Inputs with configurable data acquisition rates
+* 8 Digital Inputs with hardware noise filtering
+* 8 Digital Outputs
+* 5V terminal block besides Analog Input 7 and Digital Output 7
+
+<b> Sensors <b/><br/>
+* [Sound Sensor] (#sound)
+* [Light Sensor] (#light)
+* [Motion Sensor] (#motion)
+* [Humidity Sensor] (#humidity)
+* [Temperature Sensor] (#temperature)
+
+<b> Sound <b/>
+
+<b> Light <b/>
+<b> Motion <b/>
+<b> Humidity <b/>
+<b> Temperature <b/>
 
 
 ### Aggregation
