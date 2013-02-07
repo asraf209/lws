@@ -12,6 +12,7 @@ Table of Contents
 * [4 - Aggregation](#aggregation)
 * [5 - Database](#database)
 * [6 - Misc](#misc)
+* [7 - Sensor Positions](#Sensor Positions)
 
 Hardware
 ------------
@@ -47,25 +48,25 @@ Phidgets provide an easy way to interface with sensors through an API as well as
 
 Phidgets are broken into two main parts; I/O boards and Sensors. <br/>
 
-<b>PhidgetInterfaceKit 8/8/8 - I/O Board <b/><br/>
+<b>PhidgetInterfaceKit 8/8/8 - I/O Board </b><br/>
 * 8 Analog Inputs with configurable data acquisition rates
 * 8 Digital Inputs with hardware noise filtering
 * 8 Digital Outputs
 * 5V terminal block besides Analog Input 7 and Digital Output 7
 
-<b> Sound Sensor <b/><br/>
+<b> Sound Sensor </b><br/>
 The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1133_0)
 * Measures sound pressure level (SPL) between 50db to 100dB
 * Frequency range of 100Hz to 8kHz
 
-<b> Light Sensor <b/><br/>
+<b> Light Sensor </b><br/>
 
 The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1127_0).
 
 * Measures human perceptible light level in lux
 * Measures from 1 lux to 1000 lux
 
-<b> Motion Sensor <b/><br/>
+<b> Motion Sensor </b><br/>
 The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=5&product_id=1111_0).
 
 * Detects changes in infrared radiation which occur when there is movement
@@ -77,20 +78,22 @@ The official Phidget documentation can be found [here] (#http://www.phidgets.com
 * Measures Relative Humidity from 10% to 95%
 * Operates over 0% to 100% Relative Humidity
 
-<b> Temperature Sensor <b/><br/>
+<b> Temperature Sensor </b><br/>
 The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1125_0)
 
 * Accurately measures ambient temperatures from -30°C to +80°C (-22°F to 176°F) 
 * Typical error of ±0.75 degrees Celsius in the 0°C to 100°C range
+
+<b> Some pictures of our Phidgets and sensors </b><br>
 
 
 ### Aggregation
 
 Currently, the aggregation node is hosted on a virtual machine running Ubuntu Server 12.04 LTS. We are planning on moving all of the code and databases to a SaaS cloud service such as Heroku(http://www.heroku.com/). We are also investigating Cloud Foundry and Amazon Web Services. Heroku's free platform and support for our software stack makes it the 
 
-
 Setup
 -----
+
 
 URL
 ---
@@ -103,3 +106,14 @@ Database
 
 Misc
 ----
+
+Sensor Positions
+----------------
+[0 - Nothing Attached]
+[1 - Nothing Attached]
+[2 - Nothing Attached]
+[3 - Sound Sensor]
+[4 - Light Sensor]
+[5 - Motion Sensor]
+[6 - Humidity Sensor]
+[7 - Temperature Sensor]

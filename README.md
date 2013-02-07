@@ -3,6 +3,17 @@ Loyola University Chicago Computer Science Department.
 
 lws
 ========
+Current Sensor Positions
+========================
+
+[0 - Nothing Attached]
+[1 - Nothing Attached]
+[2 - Nothing Attached]
+[3 - Sound Sensor]
+[4 - Light Sensor]
+[5 - Motion Sensor]
+[6 - Humidity Sensor]
+[7 - Temperature Sensor]
 
 Table of Contents
 -----
