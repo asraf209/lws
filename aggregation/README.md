@@ -29,8 +29,8 @@ Where all of the functions for database manipulations are housed:
 * [list_all_devices](#list_all_devices)
 * [dump_value_data](#dump_value_data)
 
-post_value_change
----
+### post_value_change
+
 Posts a change in values that comes from the widget device. The following structure is put into the database in the tempData collection
 info:
        {
@@ -62,3 +62,52 @@ Lists all of the devices that are currently communicating with this aggregation 
 ### dump_value_data
 
 Not really in use at this point, just dumped all of the data from the mongodb.
+
+lws_server_main
+---------------
+Dependencies: Flask, db_interface(#db_interface)
+
+Serves up the RESTful functions for the aggregation node.
+
+* [register_new_device](#register_new_device)
+* [value_change](#value_change)
+* [show_all_devices](#show_all_devices)
+* [home_test](#home_test)
+
+### register_new_device
+URL: /devices/register
+Method = PUT
+
+Registers a new device. Reads in a JSON structure and checks if the device has been registered and if the IP address is current(a functionality that was originally thought that was necessary. Isn't really necessary anymore.). 
+
+Returns '_dev_registered' if the device has been newly registered
+Returns '_dev_registered' if the device has been previously registered.
+Returns '_not_possible' if 'Content-Type' headers are set incorrectly.
+Returns '_register_here' navigated too(GET request)
+
+### value_change
+URL: /devices/update/value
+Method: PUT
+
+Registers value changes with the database. 
+
+Returns '_data_put' if the data was inserted into the database successfully.
+Returns '_data_fail' if the data was not inserted into the database successfully.
+
+### show_all_devices
+URL: /devices/all
+Method: GET
+
+Renders a template that displays all of the devices registered with this particular aggregation node.
+
+### home_test
+URL: /
+Method: GET
+
+Returns 'Hello, brew'
+
+
+lws_server_main.wsgi
+--------------------
+
+Wasgi script for running the server persistently.
