@@ -32,19 +32,19 @@ Where all of the functions for database manipulations are housed:
 ### post_value_change(change_structure)
 
 Posts a change in values that comes from the widget device. The following structure is put into the database in the tempData collection
-info:
-       {
-         'd':date
-         'h':hour
-         'm':minute
-         's':second
-         'hs':hoursecond
-         'val':value
-         'phid':phidgetid
-         'sensor_data':sensor_data{} //data dictionary with all the sensor data
+info:<br>
+       {<br>
+         'd':date<br>
+         'h':hour<br>
+         'm':minute<br>
+         's':second<br>
+         'hs':hoursecond<br>
+         'val':value<br>
+         'phid':phidgetid<br>
+         'sensor_data':sensor_data{} //data dictionary with all the sensor data<br>
        }
 
-Takes in the strutter seen above.
+Takes in the structure seen above.
 
 ### device_registered(dev_reg)
 
