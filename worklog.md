@@ -53,19 +53,35 @@ Phidgets are broken into two main parts; I/O boards and Sensors. <br/>
 * 8 Digital Outputs
 * 5V terminal block besides Analog Input 7 and Digital Output 7
 
-<b> Sensors <b/><br/>
-* [Sound Sensor] (#sound)
-* [Light Sensor] (#light)
-* [Motion Sensor] (#motion)
-* [Humidity Sensor] (#humidity)
-* [Temperature Sensor] (#temperature)
+<b> Sound Sensor <b/><br/>
+The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1133_0)
+* Measures sound pressure level (SPL) between 50db to 100dB
+* Frequency range of 100Hz to 8kHz
 
-<b> Sound <b/>
+<b> Light Sensor <b/><br/>
 
-<b> Light <b/>
-<b> Motion <b/>
-<b> Humidity <b/>
-<b> Temperature <b/>
+The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1127_0).
+
+* Measures human perceptible light level in lux
+* Measures from 1 lux to 1000 lux
+
+<b> Motion Sensor <b/><br/>
+The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=5&product_id=1111_0).
+
+* Detects changes in infrared radiation which occur when there is movement
+* Narrow sensing area.
+
+<b> Humidity Sensor <b/><br/>
+The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1125_0)
+
+* Measures Relative Humidity from 10% to 95%
+* Operates over 0% to 100% Relative Humidity
+
+<b> Temperature Sensor <b/><br/>
+The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1125_0)
+
+* Accurately measures ambient temperatures from -30°C to +80°C (-22°F to 176°F) 
+* Typical error of ±0.75 degrees Celsius in the 0°C to 100°C range
 
 
 ### Aggregation
