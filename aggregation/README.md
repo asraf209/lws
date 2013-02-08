@@ -6,7 +6,7 @@ Modules
 * [1 - aggregation_backend](#aggregation_backend)
 * [2 - db_interface](#db_interface)
 * [3 - lws_server_main](#lws_server_main)
-* [4 - lws_server_main.wsgi](#lws_server_main.wsgi)
+* [4 - lws_server_main.wsgi](#lws_server_mainwsgi)
 * [5 - misc](#misc)
 
 
