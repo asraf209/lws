@@ -3,7 +3,7 @@
 from flask import Flask, render_template
 from flask import request
 from flask import json
-from db_interface import post_value_change, device_registered
+from db_interface import post_value_change, device_registered, get_device_info
 from db_interface import register_device, check_current_ip, list_all_devices
 
 app = Flask(__name__)
@@ -46,6 +46,18 @@ def value_change():
 @app.route('/devices/all')
 def show_all_devices():
 	return render_template('devices.html', all_devices=list_all_devices())
+
+#Returns information about a device
+@app.route('/devices/device')
+def show_device():
+	
+	return render_template('device.html')
+
+#returns information about a specific device as a JSON structure. Everything that is found on the device page can be returned in a JSON structure
+@app.route('/devices/device/json')
+def showd_device_json():
+	return 0
+
 
 #testing the template rendering
 @app.route('/template/test')

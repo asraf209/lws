@@ -69,8 +69,63 @@ def list_all_devices():
 		all_devices.append(temp_dict)
 	return all_devices
 
-#
-#def run():
+#dumps data based on parameters passed to the function. Will return a JSON structure with values matching this. 
+def dump_value_data(dev_id):
+	connection = Connection()
+	db = connection.lws
+	collection = db.tempData
+	data = collection.find()
+	all_data = []
+	for point in data:
+		data_dict = json.loads(mongo_dumps(point))
+		for k in data_dict.keys():
+			if k == '_id':
+				del data_dict[k]
+		all_data.append(data_dict)
+	return all_data
+		#return mongo_dumps(data)
+
+#gets the last 24 hours about a specific device and the information for that device as well.
+def get_device_info(dev_id):
+	dev_dict = {}
+	connection = Connection()
+	db = connection.lws
+	collection = db.devices
+	dev_data = collection.find({'devid':dev_id})
+	dev_only_dict = json.loads(mongo_dumps(dev_data))
+		
+	#getting this months worth of data
+	connection = Connection()
+	db = connection.lws
+	collection = db.tempData
+	this_year = datetime.now().year
+	this_month = datetime.now().month
+	month_data = json.loads(mongo_dumps(collection.find({"phid":dev_id,"year":this_year,"m":this_month})))
+	
+	dev_dict['dev_info']=dev_only_dict
+	print dev_only_dict
+	dev_dict['month_info']=month_data
+	print month_data
+
+	return dev_dict
+	
+
+#updates the database with a few aspects about a device:
+#name- what you name the device
+#location - where the device is, not sure how we want to take this into the database
+def update_device(dev_id,data_dict):
+	return 0
+
+
+def run():
+	data = get_device_info('1b7239de')
+	
+	for key in data:
+		moar_datur = key
+		for moar in moar_datur:
+			print 'Key: %s value: %s'%(moar,moar_datur[key])
+
+#	print dump_all_data()
 #	temp_data = {
 #        		'd':datetime.now().day,
 #			'y':datetime.now().year,
@@ -86,6 +141,6 @@ def list_all_devices():
 #	post_temp_change(temp_data)
        
 
-#if __name__ == '__main__':
-#        run()
+if __name__ == '__main__':
+        run()
 

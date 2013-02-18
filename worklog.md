@@ -4,7 +4,11 @@ lws Worklog
 
 The focus of this is setting up the nodes and widgets. The aggregation node is maintained by us and does not necessarily need very much configuration. Some limited documentation about the aggregation node is available here as well as in the lws/aggregation/README.md file.
 
+<<<<<<< HEAD
 ![hardwarestack](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/phidgetio.jpg)
+=======
+![hardwarestack](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/full_stack_flash.jpg)
+>>>>>>> 75f0a4232d7b999e99db65494d34e7d1aa86571c
 
 Table of Contents
 -----
@@ -92,6 +96,7 @@ The official Phidget documentation can be found [here] (#http://www.phidgets.com
 
 <b> Some pictures of our Phidgets and sensors </b><br>
 
+![phidgetioboard](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/phidgetio.jpg)
 
 ### Aggregation
 
