@@ -44,7 +44,7 @@ def check_current_ip(dev_reg):
 	connection = Connection()
 	db = connection.lws
 	collection = db.devices
-	collection.update({"devid":dev_reg['devid']},{"$set":{"ipaddress":dev_reg['ipaddress']}})
+	collection.update({"devid":dev_reg['devid']},{"$set":dev_reg})
 	
 #registeres the device base on the JSON structure that is passed to the function
 def register_device(dev_reg):
@@ -100,12 +100,14 @@ def get_device_info(dev_id):
 	collection = db.tempData
 	this_year = datetime.now().year
 	this_month = datetime.now().month
-	month_data = json.loads(mongo_dumps(collection.find({"phid":dev_id,"year":this_year,"m":this_month})))
-	
+	#month_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month})
+	month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
+	print len(month_data)	
+
 	dev_dict['dev_info']=dev_only_dict
 	print dev_only_dict
-	dev_dict['month_info']=month_data
-	print month_data
+	#dev_dict['month_info']=month_data
+	#print month_data
 
 	return dev_dict
 	

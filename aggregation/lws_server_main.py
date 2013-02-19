@@ -66,7 +66,8 @@ def template_test():
 
 @app.route('/')
 def home_test():
-	return 'Hello, brew'
+	return render_template('index.html')
+	#return 'Hello, brew'
 
 if __name__ == '__main__':
 	app.debug = True
