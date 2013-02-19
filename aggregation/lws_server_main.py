@@ -69,6 +69,15 @@ def home_test():
 	return render_template('index.html')
 	#return 'Hello, brew'
 
+@app.route('/login')
+def login_user():
+	return 'Nothing here now.'
+
+@app.route('/users/register')
+def register_user():
+	return 'Nothing here now.'
+
+
 if __name__ == '__main__':
 	app.debug = True
 	app.run()
