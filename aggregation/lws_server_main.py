@@ -50,8 +50,13 @@ def show_all_devices():
 #Returns information about a device
 @app.route('/devices/device')
 def show_device():
+	if 'devid' in request.args:
+		return render_template('device.html',devid = request.args['devid'])	
+
+	else:
+		return	
 	
-	return render_template('device.html')
+	#return render_template('device.html')
 
 #returns information about a specific device as a JSON structure. Everything that is found on the device page can be returned in a JSON structure
 @app.route('/devices/device/json')
