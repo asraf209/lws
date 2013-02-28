@@ -4,6 +4,7 @@ from pymongo import Connection
 from bson.json_util import dumps as mongo_dumps
 from datetime import datetime
 import json
+import time
 
 #posts a temperature change to the database at the
 #aggregation layer.
@@ -86,31 +87,91 @@ def dump_value_data(dev_id):
 		#return mongo_dumps(data)
 
 #gets the last 24 hours about a specific device and the information for that device as well.
-def get_device_info(dev_id):
-	dev_dict = {}
+def get_day_dev_info(dev_id):
+	dev_data_list = []
 	connection = Connection()
+	return_dict = {}
 	db = connection.lws
 	collection = db.devices
 	dev_data = collection.find({'devid':dev_id})
-	dev_only_dict = json.loads(mongo_dumps(dev_data))
-		
+	dev_only_dict = json.loads(mongo_dumps(dev_data))	
+
 	#getting this months worth of data
-	connection = Connection()
-	db = connection.lws
 	collection = db.tempData
 	this_year = datetime.now().year
 	this_month = datetime.now().month
-	#month_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month})
-	month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
-	print len(month_data)	
+	this_day = datetime.now().day
+	print this_day
+	month_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month,"d":this_day,"s":0})
+	#month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
+	
+	for point in month_data:
+		data_dict = json.loads(mongo_dumps(point))
+		for k in data_dict.keys():
+			if k =='_id':
+				del data_dict[k]
+		#print 'appending: %s'%data_dict
+		dev_data_list.append(data_dict)
+		
+	
+	return_dict['dev_info'] = dev_only_dict
+	return_dict['data_list'] = dev_data_list
 
-	dev_dict['dev_info']=dev_only_dict
-	print dev_only_dict
+	#print dev_only_dict
 	#dev_dict['month_info']=month_data
 	#print month_data
 
-	return dev_dict
+	return return_dict
 	
+#gets the devices current stats
+def get_current_stats(dev_id,min_offset):
+        dev_data_list = []
+        connection = Connection()
+        return_dict = {}
+  	
+	db = connection.lws
+        collection = db.devices
+        dev_data = collection.find({'devid':dev_id})
+	
+	for thing in dev_data:
+        	dev_only_dict = json.loads(mongo_dumps(thing))
+
+        #getting this months worth of data
+       
+        db = connection.lws
+        collection = db.tempData
+        this_year = datetime.now().year
+        this_month = datetime.now().month
+        this_day = datetime.now().day
+        this_hour = datetime.now().hour
+	this_minute = datetime.now().minute-min_offset
+	this_second = datetime.now().second
+       	print this_minute
+	current_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month,"d":this_day,"h":this_hour,"min":this_minute}).limit(1)
+        #month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
+
+	for thing in current_data:
+		data_dict = mongo_dumps(thing)
+		data_dict = json.loads(data_dict)
+		#print testa['sensor_data']
+
+	#print current_data.get('sensor_data')
+        #data_dict = mongo_dumps(current_data)
+	print 'len data dict is %s'%len(data_dict)
+        return_dict['dev_info'] = dev_only_dict
+        return_dict['data_list'] = data_dict
+	
+        #print dev_only_dict
+        #dev_dict['month_info']=month_data
+        #print month_data
+
+	if len(data_dict) == 0:
+		print 'len is zero!'
+		return get_current_stats(devid,1)
+	else:
+        	return return_dict
+
+
 
 #updates the database with a few aspects about a device:
 #name- what you name the device
@@ -120,12 +181,14 @@ def update_device(dev_id,data_dict):
 
 
 def run():
-	data = get_device_info('1b7239de')
+	#data = get_day_dev_info('402c8efa')
+	data = get_current_stats('402c8efa',0)		
+	dev_info = data['dev_info']
+	data_list = data['data_list']
+
 	
-	for key in data:
-		moar_datur = key
-		for moar in moar_datur:
-			print 'Key: %s value: %s'%(moar,moar_datur[key])
+	print data_list["sensor_data"]
+
 
 #	print dump_all_data()
 #	temp_data = {
@@ -144,5 +207,7 @@ def run():
        
 
 if __name__ == '__main__':
-        run()
+	while True:
+		time.sleep(1)
+		run()
 

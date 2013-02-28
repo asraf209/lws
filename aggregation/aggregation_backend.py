@@ -1,12 +1,13 @@
 #Backend methods/functions for the aggregation node
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
+#builds a graph as 
+def make_graph(x,y):
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	ax.plot(x,y)
 
-#checks to see if the device has been registered based ont he JSON structure that
-#is passed to the function
-def device_registered():
-
-
-
-#registeres the device base on the JSON structure that is passed to the function
-def register_device():
+	
 

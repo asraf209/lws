@@ -3,8 +3,9 @@
 from flask import Flask, render_template
 from flask import request
 from flask import json
-from db_interface import post_value_change, device_registered, get_device_info
+from db_interface import post_value_change, device_registered, get_day_dev_info
 from db_interface import register_device, check_current_ip, list_all_devices
+from db_interface import get_current_stats
 
 app = Flask(__name__)
 
@@ -51,7 +52,21 @@ def show_all_devices():
 @app.route('/devices/device')
 def show_device():
 	if 'devid' in request.args:
-		return render_template('device.html',devid = request.args['devid'])	
+		devid = request.args['devid']
+		day_records = get_day_dev_info(devid)
+		now_record = get_current_stats(devid,0)
+		dev_info = now_record['dev_info']
+		#print dev_info
+		now_record = now_record['data_list']
+		#print now_record
+		now_sense_data = now_record['sensor_data']		
+		for item in now_sense_data:
+			now_sense_data[item] = str(now_sense_data[item])
+		#print now_sense_data
+		#now_sense_data= {'help':0}
+
+		return render_template('device.html', dev_info = dev_info,current_record = now_record,sensor_data = now_sense_data)	
+		#return render_template('device.html')
 
 	else:
 		return	
