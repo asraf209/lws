@@ -51,7 +51,7 @@
  				<a class="btn btn-primary" href="/devices/device?devid={{ device.devid }}"> View</a>
   				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
   				<ul class="dropdown-menu">
-   	 				<li><a data-toggle="modal" href="#editModal"><i class="icon-pencil"></i> Edit</a></li>
+   	 				<li><a data-toggle="modal" href="#editModal{{ device.devid }}"><i class="icon-pencil"></i> Edit</a></li>
     					<li><a href="#"><i class="icon-trash"></i> Delete</a></li>
     				<!--<li class="divider"></li> -->
    
@@ -61,23 +61,64 @@
 		</div>
 	</div>
 
-{% endfor %}
-</div>
-
-        <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="editModal{{ device.devid }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="myModalLabel">Edit Device Settings</h3>
+                        <h3 id="myModalLabel">More about this sensor...</h3>
                 </div>
                 <div class="modal-body">
-                        <p>Edit settings for device here.</p>
+                        <form class="form-horizontal" >
+				<div class="control-group">
+                                         <label class="control-label" for="deviceInfo"><b>Group</b></label>
+                                        <div class="controls">
+						<div class="input-append">
+  							<input class="span2" id="appendedDropdownButton" type="text" placeholder="Group Name">
+  								<div class="btn-group">
+    									<button class="btn dropdown-toggle" data-toggle="dropdown">
+      										Choose Group
+      									<span class="caret"></span>
+    								</button>
+								<button class="btn" type="button">Help!</button>
+    								<ul class="dropdown-menu">
+    								</ul>
+  							</div>
+						</div>
+                                        </div>
+                                </div>
+				<div class="control-group">
+    					<label class="control-label" for="deviceInfo"><b>Name</b></label>
+					<div class="controls">
+      						<input type="text" id="{{ device.devid }}_sensor_name" placeholder="Sensor Name"></br>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="deviceInfo"><b>Location</b></label>
+					<div class="controls">	
+						<div class="input-append">
+  							<input class="span2" id="{{ device.devid }}_sensor_location" placeholder="Sensor Location" type="text">
+  							<button class="btn" type="button">Map</button>						
+						</div>
+					</div>
+				</div>
+				 <div class="control-group">
+					 <label class="control-label" for="deviceInfo"><b>Notes</b></label>
+					<div class="controls">
+						<textarea rows="3" id="{{ device.devid }}_sensor_description" placeholder="Any install notes? Thoughts? Feelings about the sensor?"></textarea>
+					</div>
+				</div>
+			</form>
+
+			<p>Device:{{ device.devid }}</p>
                 </div>
                 <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                         <button class="btn btn-primary">Save changes</button>
                 </div>
         </div>
-   
+
+
+{% endfor %}
+</div>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="{{ url_for('static', filename ='bootstrap/js/bootstrap.min.js') }}"></script>
