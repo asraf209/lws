@@ -5,7 +5,7 @@ from flask import request
 from flask import json
 from db_interface import post_value_change, device_registered, get_day_dev_info
 from db_interface import register_device, check_current_ip, list_all_devices
-from db_interface import get_current_stats
+from db_interface import get_current_stats, device_checkin
 
 app = Flask(__name__)
 
@@ -21,11 +21,14 @@ def register_new_device():
 	if request.headers['Content-Type'] == 'application/json':
 		#Check if device is already registered
 		if device_registered(request.json):
+			#include external IP address check here!! <!>!<>!<>!<>!<>!<!>
 			check_current_ip(request.json)
+			#add device checkin here
 			return '_dev_prev_registerd'
 		#If the device isn't registered, we register it with the registration database 
 		else:
-			register_device(request.json)	
+			register_device(request.json)
+			#add device checkin here	
 			return 	'_dev_registered'
 	else:
 		return '_not_possible'	
@@ -38,7 +41,13 @@ def value_change():
 	if request.headers['Content-Type'] == 'application/json':
 		#We will post the value change here, using
 		#the database interface file that has been written				
-		post_value_change(request.json)
+		json_struct = request.json
+		#print json_struct
+		#print json.loads(json_struct)
+		device_checkin(json_struct)
+		post_value_change(json_struct)
+		#print json_struct
+		#device_checkin(json_struct)
 		return '_data_put'
 	else:
 		return '_data_fail'

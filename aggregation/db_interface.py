@@ -54,6 +54,46 @@ def register_device(dev_reg):
 	collection = db.devices
 	collection.insert(dev_reg)
 
+#posts a device check in to the database
+def device_checkin(temp_data_json):
+        print temp_data_json
+	
+	print 'Trying to check the device in!'
+	connection = Connection()
+        db = connection.lws
+        try:
+		print 'Connecting to db.deviceCheckIn'
+		collection = db.deviceCheckIn
+        except:
+		print 'Cannot create the collection db.deviceCheckIn?'
+	
+	print 'Loading into data dictonary'
+	try:
+		data_dict = json.dumps(temp_data_json)
+		data_dict = json.loads(data_dict)	
+	except:
+		print 'CANNOT MAKE DICT'        
+
+	print data_dict['sensor_data']	
+
+	print 'len of data dict is %s'%len(data_dict)
+	for thing in data_dict:
+                if thing == 'sensor_data':
+			print 'foudn it!'
+                        del data_dict[thing]
+			break
+
+	try:
+        	if collection.find({'phid':data_dict['phid']}).count() == 0:
+                	print 'Adding device to checkin!'
+			collection.insert(data_dict)
+        	else:
+			print 'Updating device checkin!'
+                	collection.update({"phid":data_dict['phid']},{"$set":data_dict}) 
+	except:
+		print 'DB ERROR'
+
+
 #lists all of the devices that have been registered. Resturns them as a collection of JSON
 #objects and the processing/formatting can be done on the front end
 def list_all_devices():
