@@ -125,19 +125,19 @@ The image that we have been testing and that works well is [here](#http://downlo
 
 Once you have the image flashed, go ahead and boot up your Pi. It should be able to boot headlessly and you should be able to ssh into it using the following parameters:
 
-<b> Hostname: </b> raspberrypi
-<b> Username: </b> pi
-<b> Password: </b> raspberry
+<b> Hostname: </b> raspberrypi<br>
+<b> Username: </b> pi <br>
+<b> Password: </b> raspberry<br>
 
 Alternatively, you can plug it into a display and configure it that way.
 
 Once you ssh into the Pi, you can run raspi-config and continue setup.
 
 You need to configure the following:
-*Enable SSH access
-*Change the password
-*Expand the root partition to the entire SD card(option)
-*Set the timezone
+* Enable SSH access
+* Change the password
+* Expand the root partition to the entire SD card(option)
+* Set the timezone
 
 <b> Installing Dependencies </b>
 
