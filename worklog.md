@@ -19,6 +19,7 @@ Table of Contents
 * [5 - Database](#database)
 * [6 - Misc](#misc)
 * [7 - Sensor Positions](#sensor-positions)
+* [8 - Troubleshooting](#troubleshooting)
 
 Hardware
 ------------
@@ -277,6 +278,15 @@ Aggregation
 Database
 --------
 
+Setting up the mongodb for the aggregation node is simple:
+
+```
+use lws
+db.createCollection('deviceCheckIn')
+db.createCollection('tempData')
+db.createCollection('devices')
+```
+
 Misc
 ----
 
@@ -290,3 +300,6 @@ Sensor Positions
 [5 - Motion Sensor]<br/>
 [6 - Humidity Sensor]<br/>
 [7 - Temperature Sensor]<br/>
+
+Trouble Shooting
+----------------
