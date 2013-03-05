@@ -4,11 +4,11 @@ lws Worklog
 
 The focus of this is setting up the nodes and widgets. The aggregation node is maintained by us and does not necessarily need very much configuration. Some limited documentation about the aggregation node is available here as well as in the lws/aggregation/README.md file.
 
-<<<<<<< HEAD
+
 ![hardwarestack](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/phidgetio.jpg)
-=======
+
 ![hardwarestack](https://raw.github.com/t3hpaul/lws/master/static/worklog_photos/full_stack_flash.jpg)
->>>>>>> 75f0a4232d7b999e99db65494d34e7d1aa86571c
+
 
 Table of Contents
 -----
@@ -82,7 +82,7 @@ The official Phidget documentation can be found [here] (#http://www.phidgets.com
 * Detects changes in infrared radiation which occur when there is movement
 * Narrow sensing area.
 
-<b> Humidity Sensor <b/><br/>
+<b> Humidity Sensor </b><br/>
 The official Phidget documentation can be found [here] (#http://www.phidgets.com/products.php?category=6&product_id=1125_0)
 
 * Measures Relative Humidity from 10% to 95%
@@ -100,11 +100,53 @@ The official Phidget documentation can be found [here] (#http://www.phidgets.com
 
 ### Aggregation
 
-Currently, the aggregation node is hosted on a virtual machine running Ubuntu Server 12.04 LTS. We are planning on moving all of the code and databases to a SaaS cloud service such as Heroku(http://www.heroku.com/). We are also investigating Cloud Foundry and Amazon Web Services. Heroku's free platform and support for our software stack makes it the 
+Currently, the aggregation node is hosted on a virtual machine running Ubuntu Server 12.04 LTS. We are planning on moving all of the code and databases to a SaaS cloud service such as [Heroku](#http://www.heroku.com/). We are also investigating Cloud Foundry and Amazon Web Services. Heroku's free platform and support for our software stack makes it the 
 
 Setup
 -----
+Setup of the Pi's + development software will be here. Anything that pertains to the aggregation node will be documented pretty extensively at a later date. 
 
+Setting up the nodes for development is a relatively simple process that consists of a few simple steps:
+
+* 1 - Setting up the Pi
+* 2 - Installing dependencies
+* 3 - Getting the code
+* 4 - Running the code
+* 5 - Registering your device
+
+<b> Setting up the Pi </b>
+Assuming you have all of the proper hardware, you need to set up your Pi. 
+
+Start with flashing your SD card(if you didn't purchase an SD card pre-loaded with Debian)
+
+Flashing information can be found [here](#http://elinux.org/RPi_Easy_SD_Card_Setup). There are instructions for Windows, OS X, and Linux systems there.
+
+The image that we have been testing and that works well is [here](#http://downloads.raspberrypi.org/images/raspbian/2013-02-09-wheezy-raspbian/2013-02-09-wheezy-raspbian.zip)
+
+Once you have the image flashed, go ahead and boot up your Pi. It should be able to boot headlessly and you should be able to ssh into it using the following parameters:
+
+<b> Hostname: </b> raspberrypi
+<b> Username: </b> pi
+<b> Password: </b> raspberry
+
+Alternatively, you can plug it into a display and configure it that way.
+
+Once you ssh into the Pi, you can run raspi-config and continue setup.
+
+You need to configure the following:
+*Enable SSH access
+*Change the password
+*Expand the root partition to the entire SD card(option)
+*Set the timezone
+
+<b> Installing Dependencies </b>
+
+Since we are using the Phidgets for a agile and rapid prototype development style, we need to get a few things set up for them to work on your Pi. Make sure that you run the following commands as 
+
+Misc URLS:
+
+Config Script:
+http://elinux.org/RPi_raspi-config#The_raspi-config_script
 
 URL
 ---
