@@ -114,7 +114,7 @@ Setting up the nodes for development is a relatively simple process that consist
 * 4 - Running the code
 * 5 - Registering your device
 
-<b> Setting up the Pi </b>
+<b> 1 - Setting up the Pi </b> <br>
 Assuming you have all of the proper hardware, you need to set up your Pi. 
 
 Start with flashing your SD card(if you didn't purchase an SD card pre-loaded with Debian)
@@ -131,7 +131,7 @@ Once you have the image flashed, go ahead and boot up your Pi. It should be able
 
 Alternatively, you can plug it into a display and configure it that way.
 
-Once you ssh into the Pi, you can run raspi-config and continue setup.
+Once you ssh into the Pi, you can run ```raspi-config``` and continue setup.
 
 You need to configure the following:
 * Enable SSH access
@@ -139,9 +139,123 @@ You need to configure the following:
 * Expand the root partition to the entire SD card(option)
 * Set the timezone
 
-<b> Installing Dependencies </b>
+<b> Finally, you should get an update and install git to clone our code! </b> <br>
 
-Since we are using the Phidgets for a agile and rapid prototype development style, we need to get a few things set up for them to work on your Pi. Make sure that you run the following commands as 
+Update:
+
+```
+apt-get update
+```
+
+Git:
+
+```
+apt-get install git
+```
+
+<b> 2 - Installing Dependencies </b>
+
+Since we are using the Phidgets for a agile and rapid prototype development style, we need to get a few things set up for them to work on your Pi. Make sure that you run the following commands as the root user. 
+
+<b> Note that you can also do the same with the Phidgets plus any Unix host device with a network connection! </b><br>
+
+More detailed instruction for setting up the dependencies for the Phidgets can be found [here](#http://www.phidgets.com/docs/OS_-_Linux)
+
+A script that will do everything mentioned here, and more can be found [here](#
+https://raw.github.com/t3hpaul/lws/master/scripts/raspberrysetup.sh)
+
+The usb linux library needs to be installed:
+
+```
+apt-get install libusb-1.0-0-dev
+```
+
+Next, we need to install the Phidget Libraries:
+
+Downloads them then unpack them, first:
+```
+wget http://www.phidgets.com/downloads/libraries/libphidget.tar.gz
+tar -xzvf libphidget.tar.gz 
+```
+I like to clean up while I work:
+```
+rm libphidget.tar.gz
+```
+Go ahead and install the libraries:
+```
+cd libphidget-2.1.8.20121218/
+./configure
+make
+make install
+```
+Again, I like to clean up:
+```
+cd ..
+rm -r libphidget-2.1.8.20121218
+```
+Install the Python libraries and modules:
+```
+wget http://www.phidgets.com/downloads/libraries/PhidgetsPython.zip
+unzip PhidgetsPython.zip
+cd PhidgetsPython
+python setup.py install
+```
+
+Clean up, clean up, everybody do their share:
+```
+cd ..
+rm -r PhidgetsPython
+```
+
+The RESTful version of our code uses the super clean python Requests framework. More information on this awesome framework can be found [here](#http://docs.python-requests.org/en/latest/)
+
+
+```
+git clone git://github.com/kennethreitz/requests.git
+cd requests
+python setup.py install
+cd ..
+rm -r requests
+```
+
+Once we have the requests framework, we can clone the lws repository. We put it in /etc/lws and set it up to startup with the system.
+
+```
+git clone https://github.com/t3hpaul/lws.git /etc/lws
+cat /etc/lws/scripts/initscript.sh > /etc/init.d/lwsclient
+```
+
+Sometimes we needed to give full acces to the startup/shutdown script, which is odd:
+
+```
+chmod 777 /etc/init.d/lwsclient
+```
+
+<b> Now we can test the installation and see if it works </b><br>
+```
+python /etc/lws/client/lws_client_main.py
+```
+
+<b> If it does, you should see something like this: </b><br>
+
+```
+creating the interface kit
+connecting to the device!
+IP is: 192.x.x.x
+{'s': 31, 'd': 5, 'min': 58, 'y': 2013, 'h': 13, 'devid': 'xxxxxx', 'ipaddress': 'x.x.x.x', 'month': 3}
+_dev_prev_registerd
+{0: 0, 1: 0, 2: 0, 3: 7, 4: 19, 5: 491, 6: 371, 7: 366}
+{"s": 31, "phid": "xxxx", "d": 5, "min": 58, "y": 2013, "h": 13, "sensor_data": {"0": 0, "1": 0, "2": 0, "3": 7, "4": 19, "5": 491, "6": 371, "7": 366}, "month": 3}
+_data_put
+```
+
+If it can't connect to the interface kit, then you should try running:
+
+```
+lsusb
+```
+
+If the interface kit isn't listed, reboot the Pi. If it still isn't listed, you probably have a power problem.
 
 Misc URLS:
 
