@@ -73,38 +73,34 @@ def device_checkin(temp_data_json):
 		data_dict = json.dumps(temp_data_json)
 		data_dict = json.loads(data_dict)	
 	except:
-		return 0
 		#print 'CANNOT MAKE DICT'        
 
-	print data_dict['sensor_data']	
+	#print data_dict['sensor_data']	
 
 	#print 'len of data dict is %s'%len(data_dict)
 	for thing in data_dict:
                 if thing == 'sensor_data':
-			print 'foudn it!'
+			#print 'foudn it!'
                         del data_dict[thing]
 			break
 
 	try:
         	if collection.find({'phid':data_dict['phid']}).count() == 0:
-                	print 'Adding device to checkin!'
+                	#print 'Adding device to checkin!'
 			collection.insert(data_dict)
         	else:
-			print 'Updating device checkin!'
+			#print 'Updating device checkin!'
                 	collection.update({"phid":data_dict['phid']},{"$set":data_dict}) 
 	except:
-		print 'DB ERROR'
+		return 0
+		#print 'DB ERROR'
 
 #gets the last time a device checked into/interacted with the aggregation node
 def get_last_checkin(devid):
 	connection = Connection()
         db = connection.lws
         collection = db.deviceCheckIn
-	checkin = {}        
-
-	for val in  collection.find({'phid':devid}):
-		checkin = json.loads(mongo_dumps(val))
-	
+        checkin = json.loads(mongo_dumps(collection.find({'phid':devid})))
 	return checkin
 
 
@@ -191,32 +187,41 @@ def get_current_stats(dev_id,min_offset):
         	dev_only_dict = json.loads(mongo_dumps(thing))
 
         #getting this months worth of data
-       	last_checkin = get_last_checkin(dev_id)
+       
         db = connection.lws
         collection = db.tempData
-        this_year = last_checkin['y']
-        this_month = last_checkin['month']
-        this_day = last_checkin['d']
-        this_hour = last_checkin['h']
-	this_minute = last_checkin['min']
-	this_second = last_checkin['s']
+        this_year = datetime.now().year
+        this_month = datetime.now().month
+        this_day = datetime.now().day
+        this_hour = datetime.now().hour
+	this_minute = datetime.now().minute-min_offset
+	this_second = datetime.now().second
        	print this_minute
 	current_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month,"d":this_day,"h":this_hour,"min":this_minute}).limit(1)
         #month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
+
+	for thing in current_data:
+		data_dict = mongo_dumps(thing)
+		data_dict = json.loads(data_dict)
+		#print testa['sensor_data']
+
+	#print current_data.get('sensor_data')
+        #data_dict = mongo_dumps(current_data)
+	print 'len data dict is %s'%len(data_dict)
+        return_dict['dev_info'] = dev_only_dict
+        return_dict['data_list'] = data_dict
 	
-	if current_data.count() == 0:
-                print 'len is zero!'
-                return get_current_stats(dev_id,1)
-        else:
-        	for thing in current_data:
-			data_dict = mongo_dumps(thing)
-			data_dict = json.loads(data_dict)
-			#print testa['sensor_data']
+        #print dev_only_dict
+        #dev_dict['month_info']=month_data
+        #print month_data
 
-        	return_dict['dev_info'] = dev_only_dict
-        	return_dict['data_list'] = data_dict
+	if len(data_dict) == 0:
+		print 'len is zero!'
+		return get_current_stats(devid,1)
+	else:
+        	return return_dict
 
-		return return_dict
+
 
 #updates the database with a few aspects about a device:
 #name- what you name the device
@@ -227,14 +232,14 @@ def update_device(dev_id,data_dict):
 
 def run():
 	#data = get_day_dev_info('402c8efa')
-	data = get_current_stats('402c8efa',0)		
-	dev_info = data['dev_info']
-	data_list = data['data_list']
+	#data = get_current_stats('402c8efa',0)		
+	#dev_info = data['dev_info']
+	#data_list = data['data_list']
 
 	
-	print data_list["sensor_data"]
+	#print data_list["sensor_data"]
 	
-	#print get_last_checkin('402c8efa')
+	print get_last_checkin('402c8efa')
 
 #	print dump_all_data()
 #	temp_data = {

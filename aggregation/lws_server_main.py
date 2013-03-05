@@ -69,8 +69,12 @@ def show_device():
 		now_record = now_record['data_list']
 		#print now_record
 		now_sense_data = now_record['sensor_data']		
-		for item in now_sense_data:
-			now_sense_data[item] = str(now_sense_data[item])
+		#now_sense_data ={'test':'test'}	
+		
+		for thing in now_sense_data:
+			now_sense_data[str(thing)] = now_sense_data[thing]
+			#del now_sense_data[thing]
+		
 		#print now_sense_data
 		#now_sense_data= {'help':0}
 
