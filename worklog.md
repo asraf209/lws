@@ -217,6 +217,7 @@ python setup.py install
 cd ..
 rm -r requests
 ```
+<b> 3 - Getting the code </b><br>
 
 Once we have the requests framework, we can clone the lws repository. We put it in /etc/lws and set it up to startup with the system.
 
@@ -230,6 +231,8 @@ Sometimes we needed to give full acces to the startup/shutdown script, which is 
 ```
 chmod 777 /etc/init.d/lwsclient
 ```
+
+<b> 4 - Running the code </b><br>
 
 <b> Now we can test the installation and see if it works </b><br>
 ```
@@ -256,6 +259,9 @@ lsusb
 ```
 
 If the interface kit isn't listed, reboot the Pi. If it still isn't listed, you probably have a power problem.
+
+<b> 4 - Register the device /b><br>
+Coming soon.
 
 Misc URLS:
 
