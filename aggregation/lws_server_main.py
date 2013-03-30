@@ -74,6 +74,7 @@ def show_device():
 		for thing in now_sense_data:
 			now_sense_data[str(thing)] = now_sense_data[thing]
 			#del now_sense_data[thing]
+		now_sense_data = dict((k.encode('ascii'), str(v)) for (k, v) in now_sense_data.items())
 		
 		#print now_sense_data
 		#now_sense_data= {'help':0}
@@ -85,6 +86,10 @@ def show_device():
 		return	
 	
 	#return render_template('device.html')
+
+@app.route('/devices/device/changes', methods=['PUT'])
+def device_changes():
+	print "GETTING CHANGES!"
 
 #returns information about a specific device as a JSON structure. Everything that is found on the device page can be returned in a JSON structure
 @app.route('/devices/device/json')

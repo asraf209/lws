@@ -39,12 +39,13 @@
 <div class="container">	
 	<p><h2> Device {{ dev_info.devid }}</h2></p> 
 	<p><h3> Current Device Stats:</h3></p>
-	<p><h4> Checked in last at {{ current_record.h }} : {{ current_record.min }}</h4></p><br>
+	<p><h4> Checked in last on {{ current_record.month }}/{{ current_record.d }}/{{ current_record.y }} at {{ current_record.h }}:{{ current_record.min }}</h4></p><br>
 
 	<p><h4> Sensor Data: </h4></p>
 	{{ sensor_data }}<br>
-	{% for key in sensor_data %}
-		Sensor {{ key }}:{{ sensor_data.key }}<br>
+	
+	{% for key,value in sensor_data.iteritems() %}
+		Sensor {{ key }}:{{ value }}<br>
 	{% endfor %}	
 
 	<p><h3> The last 30 days: </h3></p>
