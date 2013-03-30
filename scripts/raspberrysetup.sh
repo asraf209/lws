@@ -37,3 +37,5 @@ cat /etc/lws/scripts/initscript.sh > /etc/init.d/lwsclient
 chmod 777 /etc/init.d/lwsclient
 echo "Now testing the installation."
 python /etc/lws/client/lws_client_main.py
+mkdir /var/logs/lws 
+echo "Now installing 0mq" 

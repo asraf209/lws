@@ -10,23 +10,26 @@ from request_handler import put_value_change
 #from register_module import register_phidget
 import json
 from time import sleep
+import logging
 
 #Create and connect to the device using the InterfaceKit() method.
 #This method depends on the device that we are using. For us, it
 #happens to be the interfacekit.
+logging.basicConfig(filename='/var/log/lws/lws.log')
+
 def connect_phidget():
 	try:
-  		print 'creating the interface kit'
+  		logging.warning('creating the interface kit')
   		device = InterfaceKit()
 	except RuntimeError as e:
-  		print("Error when trying to create the device: %s" % e.message)
+  		logging.warning("Error when trying to create the device: %s" % e.message)
 
 	#This connects to the device.
 	try:
- 		print 'connecting to the device!'
+ 		#print 'connecting to the device!'
   		device.openPhidget()
 	except PhidgetException as e:
- 		print ("Exception when trying to connect %i: %s" % (e.code, e.detail))		
+ 		logging.warning("Exception when trying to connect %i: %s" % (e.code, e.detail))		
   		exit(1)
 
 	return device
@@ -56,14 +59,13 @@ if __name__ == '__main__':
 		sleep(3)
 		#getting the IP here, don't really need to do this after some recent updates
 		ip_addy = get_local_ip('eth0')
-		print 'IP is: %s'%ip_addy		
+		logging.info('IP is: %s'%ip_addy)		
 		register_device(ip_addy,dev_id)
 		sensor_data = check_sensors(device)
-		print sensor_data
+		logging.info(sensor_data)
 		put_value_change(dev_id,sensor_data)
 
 	device.closePhidget()
-
 
 
 #Only here to block until user keyboard input, which will end the program.
