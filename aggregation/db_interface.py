@@ -56,7 +56,7 @@ def register_device(dev_reg):
 
 #posts a device check in to the database
 def device_checkin(temp_data_json):
-        print temp_data_json
+        #print temp_data_json
 	
 	#print 'Trying to check the device in!'
 	connection = Connection()
@@ -81,16 +81,16 @@ def device_checkin(temp_data_json):
 	#print 'len of data dict is %s'%len(data_dict)
 	for thing in data_dict:
                 if thing == 'sensor_data':
-			print 'foudn it!'
+			#print 'foudn it!'
                         del data_dict[thing]
 			break
 
 	try:
         	if collection.find({'phid':data_dict['phid']}).count() == 0:
-                	print 'Adding device to checkin!'
+                	#print 'Adding device to checkin!'
 			collection.insert(data_dict)
         	else:
-			print 'Updating device checkin!'
+			#print 'Updating device checkin!'
                 	collection.update({"phid":data_dict['phid']},{"$set":data_dict}) 
 	except:
 		print 'DB ERROR'
@@ -224,6 +224,45 @@ def get_current_stats(dev_id,min_offset):
 def update_device(dev_id,data_dict):
 	return 0
 
+def get_data_timespan(dev_id,start_date,end_date,celc):
+	#http://lws.at-band-camp.net/devices/device/data/time/json?devid=1234&startdate=12389124&enddate=123124&celc=123123123
+	start_date_dict = parse_date(start_date)
+	end_date_dict = parse_date(end_date)
+	#db.tempData.find({phid:'1b7239de',month:{'$gte': ,'$lt': },d:{'$gte':7,'$lt':8},y:{'$gte':,'$lt'},h:{'$gte':,'$lt':},min:{'$gte': ,'$lt': },s:{'$gte': ,'$lt': })
+	get_data_timespan_db(start_date,end_date,dev_id)	
+
+	return parse_date(start_date)
+
+def get_data_timespan_db(start_date,end_date,dev_id):
+	return_list=()
+	connection = Connection()
+	db = conneciton.lws
+	collection = db.tempData
+	db_data = collection.find({'phid':dev_id,'month':{'$gte':start_date['month'],'$lt':end_date['month']},'d':{'$gte':start_date['day'],'$lt':end_date['day']},'y':{'$gte':start_date['year'],'$lt':end_date['year']},'h':{'$gte':start_date['hour'],'$lt':end_date['hour']},'min':{'$gte':start_date['min'],'$lt':end_date['min']},'s':{'$gte':start_date['seconds'],'$lt':end_date['seconds']})
+	
+	if db_data.count()==0:
+		return 0
+	else:
+		for row in db_data:
+			data_dict = mongo_dumps(row)
+			data_dict = json.loads(data_dict)
+			return_list.append(data_dict)
+
+	return json.dumps(return_list)
+
+
+#parses the date that is passed
+def parse_date(date):
+	return_dict = {}
+	return_dict['month']=date[:2]
+	return_dict['day']=date[2:4]
+	return_dict['year']=date[4:8]
+	return_dict['hour']=date[8:10]
+	return_dict['min']=date[10:12]
+	return_dict['seconds']=date[12:14]
+	
+	return return_dict
+
 
 def run():
 	#data = get_day_dev_info('402c8efa')
@@ -253,7 +292,10 @@ def run():
        
 
 if __name__ == '__main__':
-	while True:
-		time.sleep(1)
-		run()
-
+	#print parse_date('03302013150744')
+	start_date= '03072013150744'
+	end_date = '03302013150744'
+	devid = '1b7239de'
+	celc = False
+	get_data_timespan(devid,start_date,end_date,celc)
+	

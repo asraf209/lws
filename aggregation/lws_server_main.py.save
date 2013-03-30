@@ -5,7 +5,7 @@ from flask import request
 from flask import json
 from db_interface import post_value_change, device_registered, get_day_dev_info
 from db_interface import register_device, check_current_ip, list_all_devices
-from db_interface import get_current_stats, device_checkin, get_data_timespan
+from db_interface import get_current_stats, device_checkin
 from lws_server_sensor_config import transpose_to_strings, convert_to_real_values
 
 app = Flask(__name__)
@@ -63,7 +63,7 @@ def show_all_devices():
 def show_device():
 	if 'devid' in request.args:
 		devid = request.args['devid']
-		#day_records = get_day_dev_info(devid)
+		day_records = get_day_dev_info(devid)
 		now_record = get_current_stats(devid,0)
 		dev_info = now_record['dev_info']
 		#print dev_info
@@ -87,28 +87,22 @@ def show_device():
 		#return render_template('device.html')
 
 	else:
-		return 0
-
-@app.route('/devices/device/data/time/json', methods=['GET'])
-def device_data_time():
-	devid = request.args['devid']
-	start_date = request.args['startdate']
-	end_date = request.args['enddate']
-	celc = request.args['celc']
+		return	
 	
-	return get_data_timespan(devid,start_date,end_date,celc)
-
+	#return render_template('device.html')
+@app.route('/devices/device/data/json',methods=['GET'])
+def get_data_time():
+	print 'getting devdata here'
 
 @app.route('/devices/device/settings/changes', methods=['PUT'])
 def device_changes():
 	print "GETTING CHANGES!"
 
-@app.route('/devices/device/settings')
+@app.route('/deivces/device/settings', methods=['GET'])
 def device_settings():
 	print "Get settings here"
-	return 'HAII'
 
-@app.route('/devices/device/settings/json',methods=['GET'])
+@app.route('/devices/dev/settings/json',methods=['GET'])
 def device_settings_json():
 	print "Get the json settings here"
 
