@@ -4,7 +4,6 @@ import hashlib
 import fcntl
 import struct
 import socket
-import logging
 
 #generates the a device_id value
 #In order to generate a random value I am taking the MAC address of the device, then hashing it using

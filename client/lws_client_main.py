@@ -10,26 +10,25 @@ from request_handler import put_value_change
 #from register_module import register_phidget
 import json
 from time import sleep
-import logging
+from logging_framework import *
 
 #Create and connect to the device using the InterfaceKit() method.
 #This method depends on the device that we are using. For us, it
 #happens to be the interfacekit.
-logging.basicConfig(filename='/var/log/lws/lws.log')
 
 def connect_phidget():
 	try:
-  		logging.warning('creating the interface kit')
+  		log_info('creating the interface kit')
   		device = InterfaceKit()
 	except RuntimeError as e:
-  		logging.warning("Error when trying to create the device: %s" % e.message)
+  		log_error("Error when trying to create the device: %s" % e.message)
 
 	#This connects to the device.
 	try:
  		#print 'connecting to the device!'
   		device.openPhidget()
 	except PhidgetException as e:
- 		logging.warning("Exception when trying to connect %i: %s" % (e.code, e.detail))		
+ 		log_warning("Exception when trying to connect %i: %s" % (e.code, e.detail))		
   		exit(1)
 
 	return device
@@ -55,14 +54,16 @@ if __name__ == '__main__':
 	#get the id_val of the device
 	dev_id = gen_id_val()
 	device = connect_phidget()
+	#We can use a timer thread for this.. just wanted to keep it simple for
+	#my own sake.
 	while True:
 		sleep(3)
 		#getting the IP here, don't really need to do this after some recent updates
 		ip_addy = get_local_ip('eth0')
-		logging.info('IP is: %s'%ip_addy)		
+		log_info('IP is: %s'%ip_addy)		
 		register_device(ip_addy,dev_id)
 		sensor_data = check_sensors(device)
-		logging.info(sensor_data)
+		log_info(sensor_data)
 		put_value_change(dev_id,sensor_data)
 
 	device.closePhidget()

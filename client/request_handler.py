@@ -6,11 +6,10 @@ from datetime import datetime
 import time as time
 import json
 import socket
-import logging
+from logging_framework import *
+
 agg_add='lws.at-band-camp.net'
 url = 'http://%s/devices/updates/value'%agg_add
-
-logging.basicConfig(filename='/var/log/lws/lws.log')
 
 #puts a value change onto the server
 def put_value_change(phidget_id, sensor_data):
@@ -38,10 +37,10 @@ def put_value_change(phidget_id, sensor_data):
 	#print 'putting the request!'
 	temp_data=json.dumps(temp_data)
 
-	logging.info(temp_data)	
+	log_info(temp_data)	
 
 	the_request = requests.put(str(url), data=temp_data, headers=headers)
-	logging.info('Response:%s'%the_request.text)	
+	log_info('Response:%s'%the_request.text)	
 
 
 #Function that registeres the device, will return a JSON object if the device has not been registered, 1 if registration
@@ -87,4 +86,4 @@ def register_device(ip_address, dev_id):
 	temp_data=json.dumps(temp_data)
 
         the_request = requests.put(str('http://%s/devices/register'%agg_add), data=temp_data, headers=headers)
-        logging.info('Register_device response:%s'%the_request.text)
+        log_info('Register_device response:%s'%the_request.text)
