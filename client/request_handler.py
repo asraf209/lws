@@ -7,12 +7,13 @@ import time as time
 import json
 import socket
 from logging_framework import *
+from client_mq_handler import send_json
 
 agg_add='lws.at-band-camp.net'
 url = 'http://%s/devices/updates/value'%agg_add
 
 #puts a value change onto the server
-def put_value_change(phidget_id, sensor_data):
+def put_value_change(phidget_id, sensor_data, mq):
 	headers = {'content-type':'application/json'}
 	temp_data = {
 			 'd':datetime.now().day,
@@ -35,12 +36,21 @@ def put_value_change(phidget_id, sensor_data):
 	#request.get_method = lambda: 'PUT'
 	#url = opener.open(request)
 	#print 'putting the request!'
-	temp_data=json.dumps(temp_data)
-
+	#temp_data=json.dumps(temp_data)
+	#print temp_data
 	log_info(temp_data)	
+	the_request = ' '
 
-	the_request = requests.put(str(url), data=temp_data, headers=headers)
-	log_info('Response:%s'%the_request.text)	
+	if mq:
+		temp_data=json.dumps(temp_data)
+		the_request = requests.put(str(url), data=temp_data, headers=headers)
+		log_info('Response:%s'%the_request.text)
+	else:
+		the_request = send_json(temp_data,5505,False,True)
+		log_info('Response:%s'%the_request)
+		print the_request
+
+#	log_info('Response:%s'%the_request.text)	
 
 
 #Function that registeres the device, will return a JSON object if the device has not been registered, 1 if registration

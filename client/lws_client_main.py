@@ -64,7 +64,7 @@ if __name__ == '__main__':
 		register_device(ip_addy,dev_id)
 		sensor_data = check_sensors(device)
 		log_info(sensor_data)
-		put_value_change(dev_id,sensor_data)
+		put_value_change(dev_id,sensor_data,False)
 
 	device.closePhidget()
 
