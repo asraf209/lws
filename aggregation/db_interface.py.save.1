@@ -226,53 +226,13 @@ def update_device(dev_id,data_dict):
 
 def get_data_timespan(dev_id,start_date,end_date,celc):
 	#http://lws.at-band-camp.net/devices/device/data/time/json?devid=1234&startdate=12389124&enddate=123124&celc=123123123
-	start_date_dict = parse_date(start_date)
-	end_date_dict = parse_date(end_date)
-	#db.tempData.find({phid:'1b7239de',month:{'$gte': ,'$lt': },d:{'$gte':7,'$lt':8},y:{'$gte':,'$lt'},h:{'$gte':,'$lt':},min:{'$gte': ,'$lt': },s:{'$gte': ,'$lt': })
-	get_data_timespan_db(start_date_dict,end_date_dict,dev_id)	
 
 	return parse_date(start_date)
-
-def get_data_timespan_db(start_date,end_date,dev_id):
-	return_list=[]
-	connection = Connection()
-	db = connection.lws
-	collection = db.tempData
-	
-	for key,value in start_date.items():
-		if value[0]=='0':
-			start_date[key]=value[1]
-		start_date[key] = int(value)		
-	
-	for key,value in end_date.items():
-        	if value[0]=='0':
-                	end_date[key]=value[1]
-		end_date[key] = int(value)	
-	
-	print start_date	
-	print end_date
-
-	#db_data = collection.find({'phid':dev_id,'month':{'$gte':start_date['month'],'$lt':end_date['month']},'d':{'$gte':start_date['day'],'$lt':end_date['day']},'y':{'$gte':start_date['year'],'$lt':end_date['year']},'h':{'$gte':start_date['hour'],'$lt':end_date['hour']},'min':{'$gte':start_date['min'],'$lt':end_date['min']},'s':{'$gte':start_date['seconds'],'$lt':end_date['seconds']}})	
-	#db_data = collection.find({'phid':dev_id,'month':{'$gte':start_date['month'],'$lt':end_date['month']}})	
-	db_data = collection.find({"phid":dev_id,"month":{"$gte":start_date['month'],"$lt":end_date['month']},"d":{"$gte":30,"$lt":30}})
-
-	if db_data.count()==0:
-		print 'no data'
-		return 0
-	else:
-		#for row in db_data:
-			#data_dict = mongo_dumps(row)
-			#data_dict = json.loads(data_dict)
-			#return_list.append(data_dict)
-		print db_data.count()		
-
-	return mongo_dumps(db_data)
-
 
 #parses the date that is passed
 def parse_date(date):
 	return_dict = {}
-	return_dict['month']=date[:2]
+	return_dict['month']=date[0:2]
 	return_dict['day']=date[2:4]
 	return_dict['year']=date[4:8]
 	return_dict['hour']=date[8:10]
@@ -310,10 +270,7 @@ def run():
        
 
 if __name__ == '__main__':
-	#print parse_date('03302013150744')
-	start_date= '03072013150744'
-	end_date = '03302013150744'
-	devid = '1b7239de'
-	celc = False
-	get_data_timespan(devid,start_date,end_date,celc)
-	
+	print prase_date(
+#                       'y':datetime.now().year,
+
+
