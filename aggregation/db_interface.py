@@ -66,31 +66,33 @@ def device_checkin(temp_data_json):
 		collection = db.deviceCheckIn
         except:
 		return 0
-		#print 'Cannot create the collection db.deviceCheckIn?'
+		print 'Cannot create the collection db.deviceCheckIn?'
 	
 	#print 'Loading into data dictonary'
 	try:
 		data_dict = json.dumps(temp_data_json)
 		data_dict = json.loads(data_dict)	
+		print data_dict['sensor_data']
 	except:
 		return 0
-		#print 'CANNOT MAKE DICT'        
+		print 'CANNOT MAKE DICT'        
 
-	print data_dict['sensor_data']	
+	#print data_dict['sensor_data']	
 
 	#print 'len of data dict is %s'%len(data_dict)
 	for thing in data_dict:
                 if thing == 'sensor_data':
-			#print 'foudn it!'
+			print 'foudn it!'
                         del data_dict[thing]
 			break
 
 	try:
-        	if collection.find({'phid':data_dict['phid']}).count() == 0:
-                	#print 'Adding device to checkin!'
+		print 'Checking to see if the device is in the checkin'
+	       	if collection.find({'phid':data_dict['phid']}).count() == 0:
+                	print 'Adding device to checkin!'
 			collection.insert(data_dict)
         	else:
-			#print 'Updating device checkin!'
+			print 'Updating device checkin!'
                 	collection.update({"phid":data_dict['phid']},{"$set":data_dict}) 
 	except:
 		print 'DB ERROR'
