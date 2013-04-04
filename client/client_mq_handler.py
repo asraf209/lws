@@ -19,8 +19,9 @@ def send_json(json_to_send,port,udp,tcp):
         talker.send_json(json_to_send)
         msg = talker.recv()
         return msg
-
-
+	talker.term()
+	context.term()
+	
 def main():
 	#client_mq(5505,True,False)
 	test_dict = {'hi':'this is a test','datur':1234}

@@ -14,6 +14,7 @@ from logging_framework import *
 import Queue
 import threading
 import time
+import zmq
 
 #Create and connect to the device using the InterfaceKit() method.
 #This method depends on the device that we are using. For us, it
@@ -65,9 +66,22 @@ class threaded_request(threading.Thread):
 	def run(self):
 		while True:
 			sensor_data = self.queue.get()
-			ip_addy = get_local_ip('eth0')
-			put_value_change(self.devid,sensor_data,False) 
+			print '%s making request: %s'%(self.getName(),sensor_data)
+			#ip_addy = get_local_ip('eth0')
+			#put_value_change(self.devid,sensor_data,False) 
+			json_to_send = json.dumps(sensor_data)
+		        context = zmq.Context()
+
+        		talker = context.socket(zmq.REQ)
+        		talker.connect('tcp://lws.at-band-camp.net:5505')
+		
+        		talker.send_json(json_to_send)
+        		msg = talker.recv()
+        		print msg
+        		talker.term()
+        		context.term()
 			self.queue.task_done()
+			print '%s is done!'%self.getName()
 
 def main():
 	device = connect_phidget()
@@ -76,18 +90,17 @@ def main():
 	#for i in range(0,100000):
 		#queue.put(check_sensors(device))
 	
-	for i in range(0,300):
+	for i in range(0,10):
 		#print i
 		t = threaded_request(queue,dev_id)
 		t.setDaemon(True)
 		t.start()
 	
 	start = time.time()
-	for i in range(0,10000):
+	for i in range(0,10):
                 queue.put(check_sensors(device))
 
 	queue.join()	
-	print queue.qsize()
 	print "Elapsed Time: %s" % (time.time() - start)		
 
 
