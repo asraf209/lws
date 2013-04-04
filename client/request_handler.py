@@ -48,7 +48,7 @@ def put_value_change(phidget_id, sensor_data, mq):
 	else:
 		the_request = send_json(temp_data,5505,False,True)
 		log_info('Response:%s'%the_request)
-		print the_request
+		#print the_request
 
 #	log_info('Response:%s'%the_request.text)	
 

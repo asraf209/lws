@@ -11,6 +11,9 @@ from request_handler import put_value_change
 import json
 from time import sleep
 from logging_framework import *
+import Queue
+import threading
+import time
 
 #Create and connect to the device using the InterfaceKit() method.
 #This method depends on the device that we are using. For us, it
@@ -50,24 +53,45 @@ def check_sensors(device):
 
 	return values_dict
 
-if __name__ == '__main__':
-	#get the id_val of the device
-	dev_id = gen_id_val()
+queue = Queue.Queue()
+
+class threaded_request(threading.Thread):
+
+	def __init__(self,queue,devid):
+		threading.Thread.__init__(self)
+		self.queue = queue
+		self.devid = devid
+
+	def run(self):
+		while True:
+			sensor_data = self.queue.get()
+			ip_addy = get_local_ip('eth0')
+			put_value_change(self.devid,sensor_data,False) 
+			self.queue.task_done()
+
+def main():
 	device = connect_phidget()
-	#We can use a timer thread for this.. just wanted to keep it simple for
-	#my own sake.
-	while True:
-		sleep(3)
-		#getting the IP here, don't really need to do this after some recent updates
-		ip_addy = get_local_ip('eth0')
-		log_info('IP is: %s'%ip_addy)		
-		register_device(ip_addy,dev_id)
-		sensor_data = check_sensors(device)
-		log_info(sensor_data)
-		put_value_change(dev_id,sensor_data,False)
+	#start = time.time()
+	dev_id = gen_id_val()
+	#for i in range(0,100000):
+		#queue.put(check_sensors(device))
+	
+	for i in range(0,300):
+		#print i
+		t = threaded_request(queue,dev_id)
+		t.setDaemon(True)
+		t.start()
+	
+	start = time.time()
+	for i in range(0,10000):
+                queue.put(check_sensors(device))
 
-	device.closePhidget()
+	queue.join()	
+	print queue.qsize()
+	print "Elapsed Time: %s" % (time.time() - start)		
 
+
+main()
 
 #Only here to block until user keyboard input, which will end the program.
 #character = str(raw_input())
