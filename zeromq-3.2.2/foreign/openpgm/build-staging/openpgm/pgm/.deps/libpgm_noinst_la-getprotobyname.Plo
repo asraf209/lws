@@ -1,0 +1,363 @@
+libpgm_noinst_la-getprotobyname.lo: getprotobyname.c /usr/include/stdio.h \
+ /usr/include/features.h /usr/include/arm-linux-gnueabihf/bits/predefs.h \
+ /usr/include/arm-linux-gnueabihf/sys/cdefs.h \
+ /usr/include/arm-linux-gnueabihf/bits/wordsize.h \
+ /usr/include/arm-linux-gnueabihf/gnu/stubs.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h \
+ /usr/include/arm-linux-gnueabihf/bits/types.h \
+ /usr/include/arm-linux-gnueabihf/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdarg.h \
+ /usr/include/arm-linux-gnueabihf/bits/stdio_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/sys_errlist.h \
+ include/impl/framework.h include/pgm/atomic.h include/pgm/types.h \
+ /usr/include/arm-linux-gnueabihf/sys/param.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/limits.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/syslimits.h \
+ /usr/include/limits.h /usr/include/arm-linux-gnueabihf/bits/posix1_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/arm-linux-gnueabihf/bits/posix2_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/xopen_lim.h \
+ /usr/include/linux/param.h /usr/include/arm-linux-gnueabihf/asm/param.h \
+ /usr/include/arm-linux-gnueabihf/sys/types.h /usr/include/time.h \
+ /usr/include/endian.h /usr/include/arm-linux-gnueabihf/bits/endian.h \
+ /usr/include/arm-linux-gnueabihf/bits/byteswap.h \
+ /usr/include/arm-linux-gnueabihf/sys/select.h \
+ /usr/include/arm-linux-gnueabihf/bits/select.h \
+ /usr/include/arm-linux-gnueabihf/bits/sigset.h \
+ /usr/include/arm-linux-gnueabihf/bits/time.h \
+ /usr/include/arm-linux-gnueabihf/sys/sysmacros.h \
+ /usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h \
+ include/pgm/macros.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdbool.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdint.h \
+ /usr/include/stdint.h /usr/include/arm-linux-gnueabihf/bits/wchar.h \
+ include/pgm/error.h include/pgm/gsi.h include/pgm/list.h \
+ include/pgm/mem.h /usr/include/alloca.h include/pgm/messages.h \
+ include/pgm/msgv.h include/pgm/packet.h \
+ /usr/include/arm-linux-gnueabihf/sys/socket.h \
+ /usr/include/arm-linux-gnueabihf/sys/uio.h \
+ /usr/include/arm-linux-gnueabihf/bits/uio.h \
+ /usr/include/arm-linux-gnueabihf/bits/socket.h \
+ /usr/include/arm-linux-gnueabihf/bits/sockaddr.h \
+ /usr/include/arm-linux-gnueabihf/asm/socket.h \
+ /usr/include/arm-linux-gnueabihf/asm/sockios.h /usr/include/netinet/in.h \
+ /usr/include/arm-linux-gnueabihf/bits/in.h /usr/include/netinet/ip.h \
+ include/pgm/skbuff.h /usr/include/string.h include/pgm/time.h \
+ include/pgm/tsi.h include/pgm/socket.h /usr/include/poll.h \
+ /usr/include/arm-linux-gnueabihf/sys/poll.h \
+ /usr/include/arm-linux-gnueabihf/bits/poll.h \
+ /usr/include/arm-linux-gnueabihf/sys/epoll.h include/impl/checksum.h \
+ include/impl/errno.h include/impl/features.h include/impl/fixed.h \
+ include/impl/galois.h include/impl/getifaddrs.h /usr/include/net/if.h \
+ include/impl/get_nprocs.h include/impl/getnetbyname.h \
+ include/impl/getnodeaddr.h /usr/include/netdb.h /usr/include/rpc/netdb.h \
+ /usr/include/arm-linux-gnueabihf/bits/netdb.h \
+ include/impl/getprotobyname.h include/impl/hashtable.h \
+ include/impl/histogram.h include/impl/slist.h include/impl/string.h \
+ include/impl/indextoaddr.h include/impl/indextoname.h \
+ include/impl/inet_network.h include/impl/ip.h include/impl/list.h \
+ include/impl/math.h include/impl/md5.h include/impl/messages.h \
+ /usr/include/inttypes.h include/pgm/zinttypes.h /usr/include/stdlib.h \
+ /usr/include/arm-linux-gnueabihf/bits/waitflags.h \
+ /usr/include/arm-linux-gnueabihf/bits/waitstatus.h \
+ include/impl/nametoindex.h include/impl/notify.h /usr/include/fcntl.h \
+ /usr/include/arm-linux-gnueabihf/bits/fcntl.h \
+ /usr/include/arm-linux-gnueabihf/bits/stat.h /usr/include/unistd.h \
+ /usr/include/arm-linux-gnueabihf/bits/posix_opt.h \
+ /usr/include/arm-linux-gnueabihf/bits/environments.h \
+ /usr/include/arm-linux-gnueabihf/bits/confname.h /usr/include/getopt.h \
+ /usr/include/arm-linux-gnueabihf/sys/eventfd.h include/impl/sockaddr.h \
+ include/impl/security.h /usr/include/errno.h \
+ /usr/include/arm-linux-gnueabihf/bits/errno.h /usr/include/linux/errno.h \
+ /usr/include/arm-linux-gnueabihf/asm/errno.h \
+ /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+ /usr/include/arm-linux-gnueabihf/sys/timeb.h include/impl/i18n.h \
+ include/impl/wsastrerror.h include/impl/processor.h include/impl/queue.h \
+ include/impl/rand.h include/impl/rate_control.h include/impl/thread.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/arm-linux-gnueabihf/bits/sched.h \
+ /usr/include/arm-linux-gnueabihf/bits/setjmp.h include/impl/ticket.h \
+ include/impl/rwspinlock.h include/impl/reed_solomon.h include/impl/sn.h \
+ include/impl/time.h include/impl/tsi.h
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/arm-linux-gnueabihf/bits/predefs.h:
+
+/usr/include/arm-linux-gnueabihf/sys/cdefs.h:
+
+/usr/include/arm-linux-gnueabihf/bits/wordsize.h:
+
+/usr/include/arm-linux-gnueabihf/gnu/stubs.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h:
+
+/usr/include/arm-linux-gnueabihf/bits/types.h:
+
+/usr/include/arm-linux-gnueabihf/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdarg.h:
+
+/usr/include/arm-linux-gnueabihf/bits/stdio_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sys_errlist.h:
+
+include/impl/framework.h:
+
+include/pgm/atomic.h:
+
+include/pgm/types.h:
+
+/usr/include/arm-linux-gnueabihf/sys/param.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/limits.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/arm-linux-gnueabihf/bits/posix1_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/arm-linux-gnueabihf/bits/posix2_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/xopen_lim.h:
+
+/usr/include/linux/param.h:
+
+/usr/include/arm-linux-gnueabihf/asm/param.h:
+
+/usr/include/arm-linux-gnueabihf/sys/types.h:
+
+/usr/include/time.h:
+
+/usr/include/endian.h:
+
+/usr/include/arm-linux-gnueabihf/bits/endian.h:
+
+/usr/include/arm-linux-gnueabihf/bits/byteswap.h:
+
+/usr/include/arm-linux-gnueabihf/sys/select.h:
+
+/usr/include/arm-linux-gnueabihf/bits/select.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sigset.h:
+
+/usr/include/arm-linux-gnueabihf/bits/time.h:
+
+/usr/include/arm-linux-gnueabihf/sys/sysmacros.h:
+
+/usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h:
+
+include/pgm/macros.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdbool.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/arm-linux-gnueabihf/bits/wchar.h:
+
+include/pgm/error.h:
+
+include/pgm/gsi.h:
+
+include/pgm/list.h:
+
+include/pgm/mem.h:
+
+/usr/include/alloca.h:
+
+include/pgm/messages.h:
+
+include/pgm/msgv.h:
+
+include/pgm/packet.h:
+
+/usr/include/arm-linux-gnueabihf/sys/socket.h:
+
+/usr/include/arm-linux-gnueabihf/sys/uio.h:
+
+/usr/include/arm-linux-gnueabihf/bits/uio.h:
+
+/usr/include/arm-linux-gnueabihf/bits/socket.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sockaddr.h:
+
+/usr/include/arm-linux-gnueabihf/asm/socket.h:
+
+/usr/include/arm-linux-gnueabihf/asm/sockios.h:
+
+/usr/include/netinet/in.h:
+
+/usr/include/arm-linux-gnueabihf/bits/in.h:
+
+/usr/include/netinet/ip.h:
+
+include/pgm/skbuff.h:
+
+/usr/include/string.h:
+
+include/pgm/time.h:
+
+include/pgm/tsi.h:
+
+include/pgm/socket.h:
+
+/usr/include/poll.h:
+
+/usr/include/arm-linux-gnueabihf/sys/poll.h:
+
+/usr/include/arm-linux-gnueabihf/bits/poll.h:
+
+/usr/include/arm-linux-gnueabihf/sys/epoll.h:
+
+include/impl/checksum.h:
+
+include/impl/errno.h:
+
+include/impl/features.h:
+
+include/impl/fixed.h:
+
+include/impl/galois.h:
+
+include/impl/getifaddrs.h:
+
+/usr/include/net/if.h:
+
+include/impl/get_nprocs.h:
+
+include/impl/getnetbyname.h:
+
+include/impl/getnodeaddr.h:
+
+/usr/include/netdb.h:
+
+/usr/include/rpc/netdb.h:
+
+/usr/include/arm-linux-gnueabihf/bits/netdb.h:
+
+include/impl/getprotobyname.h:
+
+include/impl/hashtable.h:
+
+include/impl/histogram.h:
+
+include/impl/slist.h:
+
+include/impl/string.h:
+
+include/impl/indextoaddr.h:
+
+include/impl/indextoname.h:
+
+include/impl/inet_network.h:
+
+include/impl/ip.h:
+
+include/impl/list.h:
+
+include/impl/math.h:
+
+include/impl/md5.h:
+
+include/impl/messages.h:
+
+/usr/include/inttypes.h:
+
+include/pgm/zinttypes.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/arm-linux-gnueabihf/bits/waitflags.h:
+
+/usr/include/arm-linux-gnueabihf/bits/waitstatus.h:
+
+include/impl/nametoindex.h:
+
+include/impl/notify.h:
+
+/usr/include/fcntl.h:
+
+/usr/include/arm-linux-gnueabihf/bits/fcntl.h:
+
+/usr/include/arm-linux-gnueabihf/bits/stat.h:
+
+/usr/include/unistd.h:
+
+/usr/include/arm-linux-gnueabihf/bits/posix_opt.h:
+
+/usr/include/arm-linux-gnueabihf/bits/environments.h:
+
+/usr/include/arm-linux-gnueabihf/bits/confname.h:
+
+/usr/include/getopt.h:
+
+/usr/include/arm-linux-gnueabihf/sys/eventfd.h:
+
+include/impl/sockaddr.h:
+
+include/impl/security.h:
+
+/usr/include/errno.h:
+
+/usr/include/arm-linux-gnueabihf/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/arm-linux-gnueabihf/asm/errno.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/include/arm-linux-gnueabihf/sys/timeb.h:
+
+include/impl/i18n.h:
+
+include/impl/wsastrerror.h:
+
+include/impl/processor.h:
+
+include/impl/queue.h:
+
+include/impl/rand.h:
+
+include/impl/rate_control.h:
+
+include/impl/thread.h:
+
+/usr/include/pthread.h:
+
+/usr/include/sched.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sched.h:
+
+/usr/include/arm-linux-gnueabihf/bits/setjmp.h:
+
+include/impl/ticket.h:
+
+include/impl/rwspinlock.h:
+
+include/impl/reed_solomon.h:
+
+include/impl/sn.h:
+
+include/impl/time.h:
+
+include/impl/tsi.h:

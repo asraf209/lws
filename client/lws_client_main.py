@@ -58,51 +58,54 @@ queue = Queue.Queue()
 
 class threaded_request(threading.Thread):
 
-	def __init__(self,queue,devid):
+	def __init__(self,queue,devid,rest):
 		threading.Thread.__init__(self)
 		self.queue = queue
 		self.devid = devid
+		self.rest = rest
 
 	def run(self):
 		while True:
 			sensor_data = self.queue.get()
-			print '%s making request: %s'%(self.getName(),sensor_data)
+			#print '%s making request: %s'%(self.getName(),sensor_data)
 			#ip_addy = get_local_ip('eth0')
-			#put_value_change(self.devid,sensor_data,False) 
-			json_to_send = json.dumps(sensor_data)
-		        context = zmq.Context()
-
-        		talker = context.socket(zmq.REQ)
-        		talker.connect('tcp://lws.at-band-camp.net:5505')
-		
-        		talker.send_json(json_to_send)
-        		msg = talker.recv()
-        		print msg
-        		talker.term()
-        		context.term()
+			if self.rest:
+				put_value_change(self.devid,sensor_data,True) 
+			else:
+				json_to_send = json.dumps(sensor_data)
+		        	context = zmq.Context()
+				talker = context.socket(zmq.REQ)
+        			talker.connect('epgm://eth0:lws.at-band-camp.net:5505')
+				talker.send_json(json_to_send)
+        			msg = talker.recv()
+        		
+			#print msg
+        		#talker.term()
+        		#context.term()
 			self.queue.task_done()
-			print '%s is done!'%self.getName()
+			#print '%s is done!'%self.getName()
 
 def main():
+	rest = False
 	device = connect_phidget()
 	#start = time.time()
 	dev_id = gen_id_val()
 	#for i in range(0,100000):
 		#queue.put(check_sensors(device))
 	
-	for i in range(0,10):
+	for i in range(0,100):
 		#print i
-		t = threaded_request(queue,dev_id)
+		t = threaded_request(queue,dev_id,rest)
 		t.setDaemon(True)
 		t.start()
 	
 	start = time.time()
-	for i in range(0,10):
+	for i in range(0,500):
                 queue.put(check_sensors(device))
-
+	
 	queue.join()	
 	print "Elapsed Time: %s" % (time.time() - start)		
-
+	device.closePhidget()
 
 main()
 
