@@ -46,9 +46,9 @@ def put_value_change(phidget_id, sensor_data, mq):
 		the_request = requests.put(str(url), data=temp_data, headers=headers)
 		log_info('Response:%s'%the_request.text)
 	else:
-		the_request = send_json(temp_data,5505,False,True)
+#		the_request = send_json(temp_data,5505,False,True)
 		log_info('Response:%s'%the_request)
-		print the_request
+#		print the_request
 
 #	log_info('Response:%s'%the_request.text)	
 
