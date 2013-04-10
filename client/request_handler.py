@@ -13,7 +13,7 @@ agg_add='lws.at-band-camp.net'
 url = 'http://%s/devices/updates/value'%agg_add
 
 #puts a value change onto the server
-def put_value_change(phidget_id, sensor_data, mq):
+def put_value_change(phidget_id, sensor_data, rest):
 	headers = {'content-type':'application/json'}
 	temp_data = {
 			 'd':datetime.now().day,
@@ -26,6 +26,8 @@ def put_value_change(phidget_id, sensor_data, mq):
 		         #'val':value,
 		         'phid':phidget_id,
 		         'sensor_data':sensor_data,
+			 #'datetime':datetime.now(),
+			 #'date':datetime(datetime.now().year,datetime.now().month,datetime.now().day)
 		     }
 
 	#old code that is supposedly no good to actually implement
@@ -41,14 +43,14 @@ def put_value_change(phidget_id, sensor_data, mq):
 	log_info(temp_data)	
 	the_request = ' '
 
-	if mq:
+	if rest:
 		temp_data=json.dumps(temp_data)
 		the_request = requests.put(str(url), data=temp_data, headers=headers)
 		log_info('Response:%s'%the_request.text)
 	else:
-		the_request = send_json(temp_data,5505,False,True)
+#		the_request = send_json(temp_data,5505,False,True)
 		log_info('Response:%s'%the_request)
-		print the_request
+#		print the_request
 
 #	log_info('Response:%s'%the_request.text)	
 
