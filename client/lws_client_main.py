@@ -58,14 +58,16 @@ if __name__ == '__main__':
 	#my own sake.
 	while True:
 		sleep(3)
+		device.setOutputState(0,0)
 		#getting the IP here, don't really need to do this after some recent updates
 		ip_addy = get_local_ip('eth0')
 		log_info('IP is: %s'%ip_addy)		
 		register_device(ip_addy,dev_id)
 		sensor_data = check_sensors(device)
 		log_info(sensor_data)
-		put_value_change(dev_id,sensor_data,True)
-
+		response = put_value_change(dev_id,sensor_data,True)
+		if response == 0:
+			device.setOutputState(0,1)
 	device.closePhidget()
 
 

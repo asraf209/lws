@@ -39,3 +39,9 @@ echo "Now testing the installation."
 python /etc/lws/client/lws_client_main.py
 mkdir /var/logs/lws 
 echo "Now installing 0mq" 
+apt-get install python-dev
+apt-get install python-setuptools
+wget wget http://download.zeromq.org/zeromq-3.2.2.tar.gz
+tar -xzvf zeromq-3.2.2.tar.gz
+cd zeromq-3.2.2
+
