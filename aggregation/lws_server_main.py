@@ -7,6 +7,8 @@ from db_interface import post_value_change, device_registered, get_day_dev_info
 from db_interface import register_device, check_current_ip, list_all_devices
 from db_interface import get_current_stats, device_checkin, get_data_timespan
 from lws_server_sensor_config import transpose_to_strings, convert_to_real_values
+from lws_server_main_zeromq import ThreadedServer
+import threading
 
 app = Flask(__name__)
 
@@ -139,6 +141,7 @@ def register_user():
 if __name__ == '__main__':
 	app.debug = True
 	app.run()
+	
 
 
 

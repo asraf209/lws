@@ -26,11 +26,8 @@ def post_value_change(temp_change):
 	#connects us to the lws database
 	db = connection.lws
 	collection = db.tempData
-	insert_dict = json.loads(temp_change)
-	insert_dict['datetime'] = datetime.now()
-	insert_dict['date'] = datetime(insert_dict['y'],insert_dict['month'],insert_dict['d'])
 	#print temp_change
-	collection.insert(insert_dict)
+	collection.insert(temp_change)
 
 #checks to see if the device has been registered based on the JSON structure that
 #is passed to the function
@@ -162,7 +159,7 @@ def get_day_dev_info(dev_id):
 	this_year = datetime.now().year
 	this_month = datetime.now().month
 	this_day = datetime.now().day
-	#print this_day
+	print this_day
 	month_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month,"d":this_day,"s":0})
 	#month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
 	
@@ -239,7 +236,7 @@ def get_data_timespan(dev_id,start_date,end_date,celc):
 	#get_data_timespan_db(start_date_dict,end_date_dict,dev_id)	
 
 	return 0
-def get_data_timespan_db(dev_id,start_date,end_date,celc):
+def get_data_timespan_db_date_query(dev_id,start_date,end_date,celc):
 	return_list=[]
 	connection = Connection()
 	db = connection.lws
@@ -258,6 +255,32 @@ def get_data_timespan_db(dev_id,start_date,end_date,celc):
 	return db_data
 	#return mongo_dumps(db_data)
 
+def get_data_timespan_db_index_query(dev_id,start_date,end_date,celc):
+        return_list=[]
+        connection = Connection()
+        db = connection.lws
+        collection = db.tempData
+	start_date = parse_date(start_date)
+	end_date = parse_date(end_date)
+	start_dt_obj = datetime.datetime(start_date['year'],start_date['month'],start_date['day'])
+	end_dt_obj = datetime.datetime(end_date['year'],end_date['month'],end_date['day'])
+	print start_dt_obj
+	print end_dt_obj
+        #import time
+        #start = time.time()
+        #db.tempData.find({"h":{$gte:1,$lte:10},"min":{$gte:0,$lte:1},"s":{$gte:0,$lte:10}}).count()
+        #db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date},"s":0,"min":0})
+        #db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj},"h":{"$gte":start_date['hour'],"$lt":end_date['hour']},"min":{"$gte":start_date['min'],"$lt":end_date['min']},"s":{"$gte":start_date['second'],"$lt":end_date['second']}})
+	db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj}})
+	#print time.time() - start
+        if db_data.count()==0:
+                print 'no data'
+                return 0
+        else:
+                print db_data.count()
+
+        return db_data
+        #return mongo_dumps(db_data)
 
 #parses the date that is passed
 def parse_date(date):
@@ -273,15 +296,15 @@ def parse_date(date):
 
 
 def run():
-#	data = get_day_dev_info('402c8efa')
-#	data = get_current_stats('402c8efa',0)		
-#	dev_info = data['dev_info']
-#	data_list = data['data_list']
+	#data = get_day_dev_info('402c8efa')
+	data = get_current_stats('402c8efa',0)		
+	dev_info = data['dev_info']
+	data_list = data['data_list']
 
 	
-#	print data_list["sensor_data"]
+	print data_list["sensor_data"]
 	
-#	print get_last_checkin('402c8efa')
+	#print get_last_checkin('402c8efa')
 
 #	print dump_all_data()
 #	temp_data = {
@@ -297,17 +320,18 @@ def run():
 #       	}
 #	
 #	post_temp_change(temp_data)
-	return 0
        
+
 if __name__ == '__main__':
 	#print parse_date('03302013150744')
 	start_date = parse_date('02072013150744')
-	end_date = parse_date('03072013140744')
+	end_date = parse_date('03072013150744')
 	#print end_date
 	devid = '1b7239de'
 	celc = False
 	import datetime
 	import time
+	print "Running the ISO Datetime range Query:"
 	start = time.time()
 	#datetime(year, month, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]])
 	#print start_date
@@ -315,5 +339,11 @@ if __name__ == '__main__':
 	end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
 	print start_date
 	print end_date
-	get_data_timespan_db(devid,start_date,end_date,celc)
+	get_data_timespan_db_date_query(devid,start_date,end_date,celc)
+	print time.time() - start
+	print "Running the Indexed Date Range Query:"
+	start = time.time()
+	start_date = '02072013150744'
+        end_date = '03072013150744'
+	get_data_timespan_db_index_query(devid,start_date,end_date,celc)
 	print time.time() - start
