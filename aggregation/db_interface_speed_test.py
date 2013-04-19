@@ -244,7 +244,7 @@ def get_data_timespan_db_date_query(dev_id,start_date,end_date,celc):
 	#import time
 	#start = time.time()
 	#db.tempData.find({"h":{$gte:1,$lte:10},"min":{$gte:0,$lte:1},"s":{$gte:0,$lte:10}}).count()
-	db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date},"s":0,"min":0})
+	db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date}})
 	#print time.time() - start
 	if db_data.count()==0:
 		print 'no data'
@@ -270,8 +270,8 @@ def get_data_timespan_db_index_query(dev_id,start_date,end_date,celc):
         #start = time.time()
         #db.tempData.find({"h":{$gte:1,$lte:10},"min":{$gte:0,$lte:1},"s":{$gte:0,$lte:10}}).count()
         #db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date},"s":0,"min":0})
-        #db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj},"h":{"$gte":start_date['hour'],"$lt":end_date['hour']},"min":{"$gte":start_date['min'],"$lt":end_date['min']},"s":{"$gte":start_date['second'],"$lt":end_date['second']}})
-	db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj}})
+        db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj},"h":{"$gte":start_date['hour'],"$lt":end_date['hour']},"min":{"$gte":start_date['min'],"$lt":end_date['min']},"s":{"$gte":start_date['second'],"$lt":end_date['second']}})
+	#db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj}})
 	#print time.time() - start
         if db_data.count()==0:
                 print 'no data'

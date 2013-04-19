@@ -3,9 +3,11 @@
 from flask import Flask, render_template
 from flask import request
 from flask import json
+from flask import redirect
 from db_interface import post_value_change, device_registered, get_day_dev_info
 from db_interface import register_device, check_current_ip, list_all_devices
-from db_interface import get_current_stats, device_checkin, get_data_timespan
+from db_interface import get_current_stats, device_checkin, get_data_timespan, get_data_timespan_db_index_query
+from db_interface import define_response, get_response, get_data_timespan_db_date_query
 from lws_server_sensor_config import transpose_to_strings, convert_to_real_values
 from lws_server_main_zeromq import ThreadedServer
 import threading
@@ -47,11 +49,14 @@ def value_change():
 		json_struct = request.json
 		#print json_struct
 		#print json.loads(json_struct)
-		device_checkin(json_struct)
+		return_val = device_checkin(json_struct)
 		post_value_change(json_struct)
 		#print json_struct
 		#device_checkin(json_struct)
-		return '_data_put'
+		if return_val == 0:
+			return '_data_put'
+		else:
+			return return_val
 	else:
 		return '_data_fail'
 
@@ -74,10 +79,10 @@ def show_device():
 		now_sense_data = now_record['sensor_data']		
 		#now_sense_data ={'test':'test'}	
 		
-		for thing in now_sense_data:
-			now_sense_data[str(thing)] = now_sense_data[thing]
+		#for thing in now_sense_data:
+			#now_sense_data[str(thing)] = now_sense_data[thing]
 			#del now_sense_data[thing]
-		now_sense_data = dict((k.encode('ascii'), str(v)) for (k, v) in now_sense_data.items())
+		#now_sense_data = dict((k.encode('ascii'), str(v)) for (k, v) in now_sense_data.items())
 		now_sense_data = transpose_to_strings(now_sense_data)
 		#print now_sense_data
 		now_sense_data = convert_to_real_values(now_sense_data,False,True)		
@@ -97,13 +102,32 @@ def device_data_time():
 	start_date = request.args['startdate']
 	end_date = request.args['enddate']
 	celc = request.args['celc']
-	
-	return get_data_timespan(devid,start_date,end_date,celc)
+	#print start_date
+	#print end_date
+	#return 'hey!'
+	return get_data_timespan_db_date_query(devid,start_date,end_date,celc)
 
+@app.route('/devices/identify')
+def device_identify():
+        devid = request.args['devid']
+	#define_response(devid, identify,thresholds,cmd)
+	define_response(devid,True,0,0)
+	return redirect('/devices/all')
+	#return 'Identifying device!'	
 
-@app.route('/devices/device/settings/changes', methods=['PUT'])
+@app.route('/devices/device/settings/changes', methods=['POST'])
 def device_changes():
-	print "GETTING CHANGES!"
+	devid = request.args['devid']
+	if request.method == 'POST':
+		#return request
+		#return devid
+		request.form['sensor_name']	
+	#request.form['Group']
+	#request.form['Name']
+	#request.form['Location']
+	#request.form['Notes']	
+
+	return "GETTING CHANGES!"
 
 @app.route('/devices/device/settings')
 def device_settings():

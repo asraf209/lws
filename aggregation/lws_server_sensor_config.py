@@ -44,5 +44,5 @@ def get_sound_db(raw_value):
 	return 16.801*math.log(float(raw_value))+9.872
 
 
-sense_test= {'Humidity Sensor': '341', 'Light Sensor': '2', 'Temperature Sensor': '370', 'Sound Sensor': '14', 'Motion Sensor': '512'}
-print convert_to_real_values(sense_test,False,True)
+#sense_test= {'Humidity Sensor': '341', 'Light Sensor': '2', 'Temperature Sensor': '370', 'Sound Sensor': '14', 'Motion Sensor': '512'}
+#print convert_to_real_values(sense_test,False,True)

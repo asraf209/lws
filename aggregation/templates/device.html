@@ -48,15 +48,17 @@
 		<b>{{ key }}</b>:{{ value }}<br>
 	{% endfor %}	
 
-	<p><h3> The last 30 days: </h3></p>
-	<img src = "{{ url_for('static', filename='test.png') }}"> </img>
-
-
 </div>
-
-
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="{{ url_for('static', filename ='bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='get_data.js') }}"></script>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+
+
+<!-- <script src="http://code.jquery.com/jquery-latest.js"></script> -->
+<script src="{{ url_for('static', filename ='bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 </body>
 </html>

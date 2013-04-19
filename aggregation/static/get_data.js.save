@@ -1,0 +1,9 @@
+$().ready(function () {
+     var url = 'http://lws.at-band-camp.net/devices/device/data/time/json?devid=1b7239de&startdate=0307201315045&enddate=03072013150744&celc=False';             
+     $.get(url, function (data) {
+     	var data_json = jQuery.parseJSON(data);
+    	console.log(data_json) 
+    });
+});
+
+

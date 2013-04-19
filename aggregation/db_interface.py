@@ -26,10 +26,17 @@ def post_value_change(temp_change):
 	#connects us to the lws database
 	db = connection.lws
 	collection = db.tempData
-	insert_dict = json.loads(temp_change)
-	insert_dict['datetime'] = datetime.now()
-	insert_dict['date'] = datetime(insert_dict['y'],insert_dict['month'],insert_dict['d'])
+	try:
+		#print temp_change
+		insert_dict = json.loads(json.dumps(temp_change))
+		#print insert_dict
+		insert_dict['datetime'] = datetime.datetime.now()
+		insert_dict['date'] = datetime.datetime(int(insert_dict['y']),int(insert_dict['month']),int(insert_dict['d']))
+	
+	except:
+		print 'could not insert data'
 	#print temp_change
+	#print 'Inserting %s'%insert_dict
 	collection.insert(insert_dict)
 
 #checks to see if the device has been registered based on the JSON structure that
@@ -77,30 +84,32 @@ def device_checkin(temp_data_json):
 	try:
 		data_dict = json.dumps(temp_data_json)
 		data_dict = json.loads(data_dict)	
-		print data_dict['sensor_data']
+		#print data_dict['sensor_data']
 	except:
 		return 0
 		print 'CANNOT MAKE DICT'        
 
 	#print data_dict['sensor_data']	
-
+	dev_id = data_dict['phid']
 	#print 'len of data dict is %s'%len(data_dict)
 	for thing in data_dict:
                 if thing == 'sensor_data':
-			print 'foudn it!'
+			#print 'foudn it!'
                         del data_dict[thing]
 			break
 
 	try:
-		print 'Checking to see if the device is in the checkin'
+		#print 'Checking to see if the device is in the checkin'
 	       	if collection.find({'phid':data_dict['phid']}).count() == 0:
-                	print 'Adding device to checkin!'
+                	#print 'Adding device to checkin!'
 			collection.insert(data_dict)
         	else:
-			print 'Updating device checkin!'
+			#print 'Updating device checkin!'
                 	collection.update({"phid":data_dict['phid']},{"$set":data_dict}) 
 	except:
 		print 'DB ERROR'
+
+	return get_response(dev_id)
 
 #gets the last time a device checked into/interacted with the aggregation node
 def get_last_checkin(devid):
@@ -207,7 +216,7 @@ def get_current_stats(dev_id,min_offset):
         this_hour = last_checkin['h']
 	this_minute = last_checkin['min']
 	this_second = last_checkin['s']
-       	print this_minute
+       	#print this_minute
 	current_data = collection.find({"phid":dev_id,"y":this_year,"month":this_month,"d":this_day,"h":this_hour,"min":this_minute}).limit(1)
         #month_data = collection.find({"phid":"402c8efa","y":this_year,"month":this_month})
 	
@@ -239,25 +248,88 @@ def get_data_timespan(dev_id,start_date,end_date,celc):
 	#get_data_timespan_db(start_date_dict,end_date_dict,dev_id)	
 
 	return 0
-def get_data_timespan_db(dev_id,start_date,end_date,celc):
-	return_list=[]
+
+def get_data_timespan_db_date_query(dev_id,start_date,end_date,celc):
+        return_list=[]
+        connection = Connection()
+        db = connection.lws
+        collection = db.tempData
+        start_date = parse_date(start_date)
+        end_date = parse_date(end_date)
+	#import time
+        #start = time.time()
+        #db.tempData.find({"h":{$gte:1,$lte:10},"min":{$gte:0,$lte:1},"s":{$gte:0,$lte:10}}).count()
+        start_date = datetime.datetime(start_date['year'],start_date['month'],start_date['day'],start_date['hour'],start_date['min'],start_date['second'])
+        end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
+	print start_date
+	print end_date
+	db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date}})
+        #print time.time() - start
+        if db_data.count()==0:
+                print 'no data'
+                return 0
+        else:
+                print db_data.count()
+
+        #return
+        return mongo_dumps(db_data)
+
+def get_data_timespan_db_index_query(dev_id,start_date,end_date,celc):
+        return_list=[]
+        connection = Connection()
+        db = connection.lws
+        collection = db.tempData
+	print start_date
+	print end_date
+        start_date = parse_date(start_date)
+        end_date = parse_date(end_date)
+        print start_date
+	print end_date
+	start_dt_obj = datetime.datetime(start_date['year'],start_date['month'],start_date['day'])
+        end_dt_obj = datetime.datetime(end_date['year'],end_date['month'],end_date['day'])
+        print start_dt_obj
+        print end_dt_obj
+        #import time
+        #start = time.time()
+        #db.tempData.find({"h":{$gte:1,$lte:10},"min":{$gte:0,$lte:1},"s":{$gte:0,$lte:10}}).count()
+        #db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date},"s":0,"min":0})
+        db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj},"h":{"$gte":start_date['hour'],"$lt":end_date['hour']},"min":{"$gte":start_date['min'],"$lt":end_date['min']},"s":{"$gte":start_date['second'],"$lt":end_date['second']}})
+        #db_data = collection.find({"phid":dev_id,"date":{"$gte":start_dt_obj,"$lt":end_dt_obj}})
+        #print time.time() - start
+        
+        return db_data.count()
+        #return mongo_dumps(db_data)
+
+#sets a response to the value changes
+def define_response(devid,identify,thresholds,cmd):
+	response={
+			'identify':identify,
+			'thresholds':thresholds,
+			'cmd':cmd
+		}
 	connection = Connection()
 	db = connection.lws
-	collection = db.tempData
-	#import time
-	#start = time.time()
-	#db.tempData.find({"h":{$gte:1,$lte:10},"min":{$gte:0,$lte:1},"s":{$gte:0,$lte:10}}).count()
-	db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date},"s":0,"min":0})
-	#print time.time() - start
-	if db_data.count()==0:
-		print 'no data'
+	collection = db.response
+	if collection.find({'devid':devid}).count() == 0:
+		collection.insert({'devid':devid,'response':response,'date':datetime.datetime.now()})
+	else:
+		data_dict['response'] = response
+		data_dict['date'] = datetime.datetime.now()
+		collection.update({'devid':devid},{"$set":data_dict})
+
+#gets a response to a device checkin or returns 0 if there is no response
+def get_response(devid):
+	
+	connection = Connection()
+	db = connection.lws
+	collection = db.response
+	data = collection.find({'devid':devid})
+	if data.count() == 0:
 		return 0
 	else:
-		print db_data.count()		
-
-	return db_data
-	#return mongo_dumps(db_data)
-
+		response =  mongo_dumps(data)
+		collection.remove({'devid':devid})
+		return response	
 
 #parses the date that is passed
 def parse_date(date):
@@ -300,14 +372,36 @@ def run():
 	return 0
        
 if __name__ == '__main__':
+	'''
+	#print parse_date('03302013150744')
+	#start_date = parse_date('02072013150744')
+	#end_date = parse_date('03072013140744')
+	#print end_date
+	#devid = '1b7239de'
+	#celc = False
+	#import datetime
+	#import time
+	#start = time.time()
+	#datetime(year, month, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]])
+	#print start_date
+	#start_date = datetime.datetime(start_date['year'],start_date['month'],start_date['day'],start_date['hour'],start_date['min'],start_date['second'])
+	#end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
+	#print start_date
+	#print end_date
+	#get_data_timespan_db(devid,start_date,end_date,celc)
+	#print time.time() - start
+	#'''
+	#print get_response('1b7239de')
+	#define_response('1b7239de',True,0,0)
 	#print parse_date('03302013150744')
 	start_date = parse_date('02072013150744')
-	end_date = parse_date('03072013140744')
+	end_date = parse_date('03072013150744')
 	#print end_date
 	devid = '1b7239de'
 	celc = False
 	import datetime
 	import time
+	print "Running the ISO Datetime range Query:"
 	start = time.time()
 	#datetime(year, month, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]])
 	#print start_date
@@ -315,5 +409,12 @@ if __name__ == '__main__':
 	end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
 	print start_date
 	print end_date
-	get_data_timespan_db(devid,start_date,end_date,celc)
+	get_data_timespan_db_date_query(devid,start_date,end_date,celc)
 	print time.time() - start
+	print "Running the Indexed Date Range Query:"
+	start = time.time()
+	start_date = '02072013150744'
+        end_date = '03072013150745'
+	get_data_timespan_db_index_query(devid,start_date,end_date,celc)
+	print time.time() - start
+
