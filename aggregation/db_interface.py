@@ -273,18 +273,22 @@ def get_data_timespan_db_date_query(dev_id,start_date,end_date,celc):
 	print end_date
 	import lws_server_sensor_config
 	db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date}})
-        #print time.time() - start
+        return_list=[]
+	#print time.time() - start
         if db_data.count()==0:
                 print 'no data'
                 return 0
 	else:
+		
 		for thing in db_data:
+			thing = json.loads(mongo_dumps(thing))
 			thing['sensor_data'] = lws_server_sensor_config.transpose_to_strings(thing['sensor_data']) 
 			thing['sensor_data'] = lws_server_sensor_config.convert_to_real_values(thing['sensor_data'],celc,True)
+			return_list.append(thing)
 			#print thing
 		print db_data.count()
         #return
-        return mongo_dumps(db_data)
+        return json.dumps(return_list)
 
 def get_data_timespan_db_index_query(dev_id,start_date,end_date,celc):
         return_list=[]
