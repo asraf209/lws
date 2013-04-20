@@ -140,6 +140,7 @@ def list_all_devices():
 		all_devices.append(temp_dict)
 	return all_devices
 
+
 #dumps data based on parameters passed to the function. Will return a JSON structure with values matching this. 
 def dump_value_data(dev_id):
 	connection = Connection()
@@ -238,8 +239,15 @@ def get_current_stats(dev_id,min_offset):
 #name- what you name the device
 #location - where the device is, not sure how we want to take this into the database
 def update_device(dev_id,data_dict):
-	return 0
-
+	sensor_location = data_dict['sensor_location']
+	sensor_name = data_dict['sensor_name']
+	sensor_group = data_dict['sensor_group']
+	#sensor_description = data_dict['sensor_description']
+	connection = Connection()
+       	db = connection.lws
+        collection = db.devices
+	collection.update({'devid':dev_id},{"$set":{'sensor_location':sensor_location,'sensor_name':sensor_name,'sensor_group':sensor_group}})	
+	
 def get_data_timespan(dev_id,start_date,end_date,celc):
 	#http://lws.at-band-camp.net/devices/device/data/time/json?devid=1234&startdate=12389124&enddate=123124&celc=123123123
 	#start_date_dict = parse_date(start_date)
@@ -263,14 +271,18 @@ def get_data_timespan_db_date_query(dev_id,start_date,end_date,celc):
         end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
 	print start_date
 	print end_date
+	import lws_server_sensor_config
 	db_data = collection.find({"phid":dev_id,"datetime":{"$gte":start_date,"$lt":end_date}})
         #print time.time() - start
         if db_data.count()==0:
                 print 'no data'
                 return 0
-        else:
-                print db_data.count()
-
+	else:
+		for thing in db_data:
+			thing['sensor_data'] = lws_server_sensor_config.transpose_to_strings(thing['sensor_data']) 
+			thing['sensor_data'] = lws_server_sensor_config.convert_to_real_values(thing['sensor_data'],celc,True)
+			#print thing
+		print db_data.count()
         #return
         return mongo_dumps(db_data)
 
@@ -394,8 +406,8 @@ if __name__ == '__main__':
 	#print get_response('1b7239de')
 	#define_response('1b7239de',True,0,0)
 	#print parse_date('03302013150744')
-	start_date = parse_date('02072013150744')
-	end_date = parse_date('03072013150744')
+	start_date = '02072013150744'
+	end_date = '03072013150744'
 	#print end_date
 	devid = '1b7239de'
 	celc = False
@@ -405,8 +417,8 @@ if __name__ == '__main__':
 	start = time.time()
 	#datetime(year, month, day[, hour[, minute[, second[, microsecond[, tzinfo]]]]])
 	#print start_date
-	start_date = datetime.datetime(start_date['year'],start_date['month'],start_date['day'],start_date['hour'],start_date['min'],start_date['second'])
-	end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
+	#start_date = datetime.datetime(start_date['year'],start_date['month'],start_date['day'],start_date['hour'],start_date['min'],start_date['second'])
+	#end_date = datetime.datetime(end_date['year'],end_date['month'],end_date['day'],end_date['hour'],end_date['min'],end_date['second'])
 	print start_date
 	print end_date
 	get_data_timespan_db_date_query(devid,start_date,end_date,celc)

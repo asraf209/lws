@@ -1,19 +1,128 @@
-<!doctype html>
-<title> All Devices </title>
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv='refresh' content="2">
+<title>Devices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 
+<!-- Bootstrap -->
+<link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+<style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+</style>
+<link href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
 </head>
-<div class= header>
-	<h1> All devices currently registered: </h1>
-</div>
+<body>
 
-<div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">lws</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="/devices/all">Devices</a></li>
+              <li><a href="https://github.com/t3hpaul/lws/blob/master/worklog.md">Wiki</a></li>
+              <li><a href="https://github.com/t3hpaul/lws">Github</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+<div class="container">
 
 {% for device in all_devices %}
-	{{ device }} <br />
+	<div class="row">
+		<div class="span9">
+			<b> Device Name: </b><br/>
+			<b> Device ID: </b>{{ device.devid }}<br/>
+			<!-- <b> IP Address: </b>{{ device.ipaddress }}<br/> -->
+			<b> Location: </b><br/>
+			<b> Last Check in: </b> {{ device.month }}/{{ device.d }}/{{ device.y }} at {{ device.h }}:{{ device.min }} </br>
+			<div class="btn-group">
+ 				<a class="btn btn-primary" href="/devices/device?devid={{ device.devid }}"> View</a>
+  				<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+  				<ul class="dropdown-menu">
+					<li><a href="/devices/identify?devid={{ device.devid }}"><i class="icon-ok-sign"></i>Identify</a></li>
+   	 				<li><a data-toggle="modal" href="#editModal{{ device.devid }}"><i class="icon-pencil"></i> Edit</a></li>
+    					<li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+    				<!--<li class="divider"></li> -->
+   
+  				</ul>
+			</div>
+
+		</div>
+	</div>
+
+        <div id="editModal{{ device.devid }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="myModalLabel">More about this sensor...</h3>
+                </div>
+                <div class="modal-body">
+                        <form class="form-horizontal" action="/devices/device/settings/changes?devid={{ device.devid }}" method="POST">
+				<div class="control-group">
+                                        <label class="control-label" for="deviceInfo"><b>Group</b></label>
+                                        <div class="controls">
+						<div class="input-append">
+  							<input class="span2" id="appendedDropdownButton" type="text" placeholder="Group Name">
+  								<div class="btn-group">
+    									<button class="btn dropdown-toggle" data-toggle="dropdown">
+      										Choose Group
+      									<span class="caret"></span>
+    								</button>
+								<button class="btn" type="button">Help!</button>
+    								<ul class="dropdown-menu">
+    								</ul>
+  							</div>
+						</div>
+                                        </div>
+                                </div>
+				<div class="control-group">
+    					<label class="control-label" for="deviceInfo"><b>Name</b></label>
+					<div class="controls">
+      						<input type="text" id="sensor_name" placeholder="Sensor Name"></br>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="deviceInfo"><b>Location</b></label>
+					<div class="controls">	
+						<div class="input-append">
+  							<input class="span2" id=sensor_location" placeholder="Sensor Location" type="text">
+  							<button class="btn" type="button">Map</button>						
+						</div>
+					</div>
+				</div>
+				 <div class="control-group">
+					 <label class="control-label" for="deviceInfo"><b>Notes</b></label>
+					<div class="controls">
+						<textarea rows="3" id="sensor_description" placeholder="Any install notes? Thoughts? Feelings about the sensor?"></textarea>
+					</div>
+				</div>
+		
+
+			<p>Device:{{ device.devid }}</p>
+                </div>
+                <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+		</form>
+        </div>
+
 
 {% endfor %}
-
 </div>
 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="{{ url_for('static', filename ='bootstrap/js/bootstrap.min.js') }}"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ from flask import Flask, render_template
 from flask import request
 from flask import json
 from flask import redirect
-from db_interface import post_value_change, device_registered, get_day_dev_info
+from db_interface import post_value_change, device_registered, get_day_dev_info,update_device
 from db_interface import register_device, check_current_ip, list_all_devices
 from db_interface import get_current_stats, device_checkin, get_data_timespan, get_data_timespan_db_index_query
 from db_interface import define_response, get_response, get_data_timespan_db_date_query
@@ -121,7 +121,19 @@ def device_changes():
 	if request.method == 'POST':
 		#return request
 		#return devid
-		request.form['sensor_name']	
+		#request.form['group']	
+		try:	
+			sensor_name = request.form['sensor_name']
+			sensor_location = request.form['sensor_location']
+			sensor_group = request.form['group']
+			update_dict = {'sensor_name':sensor_name,'sensor_location':sensor_location,'sensor_group':sensor_group}
+			update_device(devid,update_dict)
+		except:
+			return redirect('/devices/all')
+		#sensor_notes = request.form['sensor_description']
+		return redirect('/devices/all')
+		#return 'Getting changes for device %s'%devid		
+
 	#request.form['Group']
 	#request.form['Name']
 	#request.form['Location']
