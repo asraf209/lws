@@ -43,17 +43,20 @@ def put_value_change(phidget_id, sensor_data, rest):
 	log_info(temp_data)	
 	the_request = ' '
 
-	if rest:
-		temp_data=json.dumps(temp_data)
-		the_request = requests.put(str(url), data=temp_data, headers=headers)
-		log_info('Response:%s'%the_request.text)
-		return parse_response(the_request.text)
-	else:
-#		the_request = send_json(temp_data,5505,False,True)
-		log_info('Response:%s'%the_request)
-#		print the_request
+	try:
+		if rest:
+			temp_data=json.dumps(temp_data)
+			the_request = requests.put(str(url), data=temp_data, headers=headers)
+			log_info('Response:%s'%the_request.text)
+			return parse_response(the_request.text)
+		else:
+#			the_request = send_json(temp_data,5505,False,True)
+			log_info('Response:%s'%the_request)
+#			print the_request
 
-#	log_info('Response:%s'%the_request.text)	
+#			log_info('Response:%s'%the_request.text)	
+	except:
+		pass
 
 
 def parse_response(response):
